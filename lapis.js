@@ -264,7 +264,7 @@
     ['GOOG','is-g','Chiamata · 3 min 40 s','Da ricerca “nuove costruzioni”','22 min']
   ];
   var cards = [].slice.call(document.querySelectorAll('#feed .notif')), fi = 0;
-  function fill(el, it){ el.innerHTML = '<span class="notif_icon ' + it[1] + '">' + it[0] + '</span><div><strong>' + it[2] + '</strong><small>' + it[3] + '</small></div><time>' + it[4] + '</time>'; }
+  function fill(el, it){ el.innerHTML = '<span class="notif_icon ' + it[1] + '">' + it[0] + '</span><div><strong class="notif_strong">' + it[2] + '</strong><small class="notif_small">' + it[3] + '</small></div><time class="notif_time">' + it[4] + '</time>'; }
   if (!reduce) setInterval(function(){
     cards.forEach(function(c){ c.classList.add('is-out'); });
     setTimeout(function(){ fi = (fi + 1) % FEED.length; fill(cards[0], FEED[fi]); fill(cards[1], FEED[(fi + 1) % FEED.length]); cards.forEach(function(c){ c.classList.remove('is-out'); }); }, 450);
