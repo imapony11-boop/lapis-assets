@@ -52,3 +52,17 @@ blockquote{padding:0;border-left:0}figcaption{margin-top:0;text-align:inherit}h4
 .rl_main.hx_rep_rl_main{padding:14px;gap:12px}.rl_b.hx_rep_rl_b{transform:none}
 @media (max-width:767px){.rl_main.hx_rep_rl_main{padding:10px}.logo_slot.logo_slot_first.logos_row_logo_slot.logos_hero_logo_slot{font-size:1.02rem}.logo_slot.logos_row_logo_slot.logos_hero_logo_slot{font-size:1.02rem}.logo_slot.logo_slot_last.logos_row_logo_slot.logos_hero_logo_slot{font-size:1.02rem}.rp_panel_first.report_rp_panel.rp_panel.rp_funnel{gap:26px}.rp_vis.rpf_vis.report_rpf_vis{min-height:384px}.report_rp_panel.rp_panel{gap:26px}.report_rp_panel.rp_panel.rp_fw{gap:26px}.is-wide.report_rp_panel.rp_panel.rp_fw{gap:26px}.cs_body.cs_card_cs_body{left:clamp(24px,3vw,44px)}}
 @media (max-width:479px){.button.is-sm.nav_button{padding:8px 8px 8px 14px;font-size:.9rem}}
+/* v8 — 1:1 fixes from live-vs-source audit */
+img{max-width:none;vertical-align:baseline}
+.w-inline-block{max-width:none}
+.rl_feed li:first-child:not(#lpx){border-top:0}
+.logos_hero .logos_row:not(#lpx){border-color:#D9D5D0}
+.im_f_photo:not(#lpx){background:radial-gradient(75% 95% at 50% 100%,rgba(224,139,101,.34),rgba(224,139,101,.10) 60%,rgba(224,139,101,.02) 90%),#f1ebe5}
+.sx_tile .sx_tile_is-gestim_sx_logo:not(#lpx){max-height:38px}
+.sx_tile .sx_tile_is-realgest_sx_logo:not(#lpx){max-width:148px;max-height:50px}
+.sx_tile .sx_tile_is-tecma_sx_logo:not(#lpx){max-width:112px}
+.sx_tile .sx_tile_is-hubspot_sx_logo:not(#lpx){max-width:116px}
+.sx_tile .sx_tile_is-zoho_sx_logo:not(#lpx){max-height:50px}
+.sx_tile .sx_tile_is-gi_sx_logo:not(#lpx){max-width:136px;max-height:48px}
+.w-input,.w-select{vertical-align:baseline}
+.logo_slot_li.logos_hero_logo_slot_img{height:22px}

@@ -2,6 +2,7 @@
   if (document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', lapisInit); return; }
   if (window.__lapisHome2) return; window.__lapisHome2 = 1;
   [].forEach.call(document.querySelectorAll('svg'), function(sv){ if (!sv.querySelector('lineargradient,radialgradient,clippath')) return; var t = document.createElement('div'); t.innerHTML = sv.outerHTML; if (t.firstElementChild) sv.parentNode.replaceChild(t.firstElementChild, sv); });
+  [].forEach.call(document.querySelectorAll('.im_f_body_blockquote_span'), function(s){ var t = s.firstChild; if (t && t.nodeType === 3) t.textContent = t.textContent.replace('in pochi', 'in\u00a0pochi'); });
   [].forEach.call(document.querySelectorAll('[data-style]'), function(el){ el.style.cssText += ';' + el.getAttribute('data-style'); });
   [].forEach.call(document.querySelectorAll('.sx_row'), function(r){ if (r.dataset.dup) return; r.dataset.dup = 1; var c = document.createElement('div'); c.innerHTML = r.innerHTML; [].slice.call(c.children).forEach(function(t){ t.setAttribute('aria-hidden','true'); r.appendChild(t); }); });
 
