@@ -8,6 +8,7 @@
   [].forEach.call(document.querySelectorAll('.sx_row'), function(r){ if (r.dataset.dup) return; r.dataset.dup = 1; var c = document.createElement('div'); c.innerHTML = r.innerHTML; [].slice.call(c.children).forEach(function(t){ t.setAttribute('aria-hidden','true'); r.appendChild(t); }); });
   var path = location.pathname.replace(/\/$/, '') || '/';
   [].forEach.call(document.querySelectorAll('.nav_links > a[href], .nav_dd > a[href]'), function(a){ var h = (a.getAttribute('href') || '').split('#')[0].replace(/\/$/, ''); if (h && h !== '/' && h === path) a.setAttribute('aria-current', 'page'); });
+  if (/^\/(soluzioni|sviluppatori|agenzie)$/.test(path)) [].forEach.call(document.querySelectorAll('.nav_dd > a.nav_dd_t'), function(a){ a.setAttribute('aria-current', 'page'); });
   if (!document.getElementById('audit')) [].forEach.call(document.querySelectorAll('a[href="#audit"]'), function(a){ a.setAttribute('href', '/#audit'); });
   if (path === '/') [].forEach.call(document.querySelectorAll('a.nav_logo'), function(a){ a.setAttribute('href', '#top'); });
 
