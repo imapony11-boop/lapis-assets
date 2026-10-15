@@ -453,7 +453,8 @@
       'f-phase':  ['In progettazione','Cantiere avviato','Già in vendita'],
       'f-budget': ['Fino a 2.000 €','2.000–4.000 €','4.000–8.000 €','Oltre 8.000 €','Non lo so ancora']
     };
-    Object.keys(LAPIS_SELECTS).forEach(function(id){ var s = document.getElementById(id); if (!s) return;
+    var LAPIS_SNAME = {'f-role':'ruolo','f-units':'unita','f-phase':'fase','f-budget':'budget_media'};
+    Object.keys(LAPIS_SELECTS).forEach(function(id){ var s = document.getElementById(id) || form.querySelector('select[name="' + LAPIS_SNAME[id] + '"]'); if (!s) return;
       var cur = [].map.call(s.options, function(o){ return o.text; }).filter(Boolean);
       if (cur.length > 1 && cur.join('|').indexOf(LAPIS_SELECTS[id][0]) > -1) return;
       s.innerHTML = ''; var o0 = new Option('Seleziona', ''); s.appendChild(o0);
