@@ -275,7 +275,7 @@
     if (pane) [].forEach.call(pane.querySelectorAll('canvas[data-scene]'), function(c){ paint(c, c.dataset.scene); });
     if (mode === 'scan' && hero) fit(hero);
   }
-  function scheduleTab(){ clearTimeout(autoT); if (!auto) return; autoT = setTimeout(function(){ if (heroVisible){ var i = tabs.findIndex(function(t){ return t.dataset.hero === heroMode; }); setHero(tabs[(i+1) % tabs.length].dataset.hero); } scheduleTab(); }, TAB_MS); }
+  function scheduleTab(){ clearTimeout(autoT); if (!auto || !tabs.length) return; autoT = setTimeout(function(){ if (heroVisible){ var i = tabs.findIndex(function(t){ return t.dataset.hero === heroMode; }); setHero(tabs[(i+1) % tabs.length].dataset.hero); } scheduleTab(); }, TAB_MS); }
   var hxFeed = document.getElementById('hx-rl-feed');
   if (hxFeed && !reduce) setInterval(function(){ if (heroMode === 'report' && heroVisible && !document.hidden && hxFeed.children.length > 1) hxFeed.insertBefore(hxFeed.lastElementChild, hxFeed.firstElementChild); }, 2600);
   tabWrap.style.setProperty('--tab-dur', TAB_MS/1000 + 's');
