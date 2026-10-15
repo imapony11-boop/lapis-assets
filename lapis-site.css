@@ -145,3 +145,4 @@ blockquote{padding:0;border-left:0}figcaption{margin-top:0;text-align:inherit}h4
 .gc:not(#lpx){font-family:Roboto,"Google Sans",Inter,system-ui,sans-serif}
 .px2_seg_btn:focus-visible{outline:2px solid #B0573A}
 .pt_tab:focus-visible{outline:2px solid #E08B65;outline-offset:-2px}
+.w-form:not(#lpx){margin:0}#form-ok:not(#lpx){display:none!important}
