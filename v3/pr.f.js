@@ -69,8 +69,8 @@ var s=d.createElement('style');s.id='lp-prm';s.textContent=CSS;d.head.appendChil
 function wrap(ns){var w=d.createElement('div');w.setAttribute('data-lp-root','hm');w.className='lp-prm';ns.forEach(function(n){if(n)w.appendChild(d.importNode(n,true))});prep(w);return w}
 piani.parentNode.insertBefore(wrap([feat,band,split,band,stmt,band]),piani);
 bud.parentNode.insertBefore(wrap([cta]),bud.nextSibling);
-try{var B=bud.nextSibling,h=B.querySelector('h2'),bh=bud.querySelector('h2'),em=bh&&bh.querySelector('em');if(h&&bh&&em){var t=bh.cloneNode(true);t.removeChild(t.querySelector('em'));h.innerHTML='';h.appendChild(d.createTextNode(t.textContent.trim()));h.appendChild(d.createElement('br'));var sp=d.createElement('span');sp.textContent=em.textContent;h.appendChild(sp)}
-var bp=bud.querySelector('p [data-c~="lp-d"]')||bud.querySelector('p'),p=B.querySelector('[data-c~="v2_dl"]>p');if(bp&&p)p.textContent=bp.textContent.trim();
+try{var B=bud.nextSibling,h=B.querySelector('h2');if(h){h.innerHTML='';h.appendChild(d.createTextNode('Parliamo del tuo progetto.'));h.appendChild(d.createElement('br'));var sp=d.createElement('span');sp.textContent='Ti contattiamo entro 48 ore.';h.appendChild(sp)}
+var p=B.querySelector('[data-c~="v2_dl"]>p');if(p)p.textContent='Gratis e senza contratto: in 14 giorni ricevi budget per canale e piano consigliato.';
 var a=B.querySelector('[data-c~="v2_ctas"]>a');if(a){a.setAttribute('href','/demo');a.setAttribute('data-prm','1')}}catch(e){}
 (function(){var mq=matchMedia('(max-width:767px)'),d=document;
 function fit(){[].forEach.call(d.querySelectorAll('[data-lp-root="hm"] [data-c~="am_stage"],[data-lp-root="hm"] [data-c~="v2_mock"],[data-lp-root="hm"] [data-c~="v2_app"]'),function(el){
