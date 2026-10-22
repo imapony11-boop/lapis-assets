@@ -4,6 +4,7 @@ window.__lpIC={};window.__lpST=["ct_chip", "is-cur", "is-done", "is-hidden", "is
 (function(){function fix(){[].forEach.call(document.querySelectorAll('[data-logo] svg'),function(s){if(s.childElementCount)return;var w=s.closest('[data-logo]'),id={meta:'ic-meta',chatgpt:'ic-oai'}[w&&w.getAttribute('data-logo')];if(!id||!document.getElementById(id))return;s.setAttribute('viewBox','0 0 24 24');var u=document.createElementNS('http://www.w3.org/2000/svg','use');u.setAttribute('href','#'+id);u.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href','#'+id);s.appendChild(u)})}if(document.readyState!='loading')fix();else document.addEventListener('DOMContentLoaded',fix)})();
 
 ;
+(function(){var R=document.querySelector('[data-lp-root="ct"]');if(!R)return;[].forEach.call(R.querySelectorAll('label[for=""]'),function(l){l.removeAttribute('for')});[].forEach.call(R.querySelectorAll('.w-form-label'),function(e){e.parentNode.removeChild(e)});[].forEach.call(R.querySelectorAll('input[id]'),function(e){e.removeAttribute('id')})})();
 
 (function(){
 var form=document.querySelector('[data-ct="form"]');if(!form)return;
