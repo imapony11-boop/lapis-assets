@@ -25,7 +25,10 @@ var form=document.querySelector('[data-ct="form"]');if(!form)return;
  var L=document.createElement('div');L.className='ct_bgs';L.setAttribute('aria-hidden','true');
  for(var i=1;i<=9;i++){var d=document.createElement('div');d.className='ct_bg'+(i===1?' is-on':'');d.style.backgroundImage='linear-gradient(180deg,rgba(12,11,10,.05) 0%,rgba(12,11,10,.18) 42%,rgba(12,11,10,.76) 100%),url('+IMG+i+'.webp)';L.appendChild(d)}
  card.insertBefore(L,card.firstChild);
- var bgs=[].slice.call(L.children);window.__ctBg=function(k){bgs.forEach(function(b,j){b.classList.toggle('is-on',j===k)})};
+ var PT='https://cdn.jsdelivr.net/gh/imapony11-boop/lapis-assets@1386e1c1060ca9fca5a590cd2f89ea8dccc8c53c/img/';var P=document.createElement('div');P.className='ct_pts';P.setAttribute('aria-hidden','true');
+ [[0,'case-portrait.webp'],[3,'simone-di-gennaro.webp']].forEach(function(x){var im=document.createElement('img');im.className='ct_pt'+(x[0]===0?' is-on':'');im.src=PT+x[1];im.alt='';im.setAttribute('data-k',x[0]);P.appendChild(im)});
+ L.parentNode.insertBefore(P,L.nextSibling);card.classList.add('has-pt');
+ var bgs=[].slice.call(L.children),pts=[].slice.call(P.children);window.__ctBg=function(k){bgs.forEach(function(b,j){b.classList.toggle('is-on',j===k)});var any=false;pts.forEach(function(p){var on=+p.getAttribute('data-k')===k;p.classList.toggle('is-on',on);if(on)any=true});card.classList.toggle('has-pt',any)};
 })();
 var API='https://carlomarescarealestate.app.n8n.cloud/webhook/';
 (function(){var m=form.querySelector('input[name="canali"][value="Meta"]');if(!m)return;var o=m.closest('.ct_opt');if(!o)return;
