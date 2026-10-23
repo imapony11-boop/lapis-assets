@@ -39,7 +39,7 @@ var API='https://carlomarescarealestate.app.n8n.cloud/webhook/';
   var sb=n.querySelector('.ct_sub');if(!sb){sb=document.createElement('p');sb.className='ct_sub';hh.parentNode.insertBefore(sb,hh.nextSibling)}sb.textContent=sub;
   var box=n.querySelector('.ct_opts'),proto=box.querySelector('.ct_opt');box.innerHTML='';
   items.forEach(function(it){var o=proto.cloneNode(true);o.classList.remove('is-sel');var i=o.querySelector('input');i.name=name;i.value=it[0];i.checked=false;var sp=o.querySelector('span');sp.innerHTML='';sp.className='ct_oc';
-   if(it[3]){var ic=document.createElement('span');ic.className='ct_ic';if(it[3].charAt(0)==='<')ic.innerHTML=it[3];else{var im=document.createElement('img');im.src=it[3];im.alt='';im.loading='lazy';ic.appendChild(im)}o.insertBefore(ic,sp)}var b=document.createElement('b');b.className='ct_ot';b.textContent=it[1];sp.appendChild(b);if(it[2]){var sm=document.createElement('small');sm.className='ct_os';sm.textContent=it[2];sp.appendChild(sm)}box.appendChild(o)});return n}
+   if(it[3]){var ic=document.createElement('span');ic.className='ct_ic';if(it[3].charAt(0)==='<')ic.innerHTML=it[3];else{var im=document.createElement('img');im.src=it[3];im.alt='';ic.appendChild(im)}o.insertBefore(ic,sp)}var b=document.createElement('b');b.className='ct_ot';b.textContent=it[1];sp.appendChild(b);if(it[2]){var sm=document.createElement('small');sm.className='ct_os';sm.textContent=it[2];sp.appendChild(sm)}box.appendChild(o)});return n}
  var a=mk(fase,'Da dove partiamo?','Ci adattiamo a quello che hai già.','partenza',[
   ['Takeover','Takeover','Hai già account, portali o sito? Completiamo solo ciò che manca.'],
   ['Setup completo','Setup completo da zero','Impostiamo campagne, portali, tracciamento e landing page.'],
@@ -55,7 +55,7 @@ var API='https://carlomarescarealestate.app.n8n.cloud/webhook/';
   ['Meta Ads','Meta Ads','Facebook e Instagram',CDN+'prezzi/svg_meta.svg'],
   ['Google Ads','Google Ads','Search e Performance Max',CDN+'img/icon-google-ads.webp'],
   ['Tracciamento','Tracciamento','GA4, Pixel, Tag Manager',CDN+'prezzi/svg_ga4.svg'],
-  ['CRM','CRM','Gestione contatti',CDN+'prezzi/svg_crm.svg'],
+  ['CRM','CRM','Gestione contatti','<svg viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="9" cy="10.5" r="2.2"/><path d="M5.8 16.2c.6-1.6 1.8-2.4 3.2-2.4s2.6.8 3.2 2.4M14.5 9.5h4M14.5 12.5h4M14.5 15.5h2.5"/></svg>'],
   ['Niente','Niente, partiamo da zero','',ZERO]]);
  var bx=b.querySelector('.ct_opts');if(bx)bx.classList.add('ct_tiles');
  fase.parentNode.insertBefore(a,fase.nextSibling);a.parentNode.insertBefore(b,a.nextSibling);
