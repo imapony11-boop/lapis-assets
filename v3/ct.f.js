@@ -13,7 +13,7 @@ var form=document.querySelector('[data-ct="form"]');if(!form)return;
  var IMG='https://cdn.jsdelivr.net/gh/imapony11-boop/lapis-assets@c20bdc818ccab09e6e63ac142ea8d43acb571386/v3/ct-s';
  var Q=[].slice.call(box.querySelectorAll('.ct_q'));if(Q.length<3)return;
  var F=[['Il nostro obiettivo','Ottimizziamo per le visite prenotate, non per i contatti.','Le campagne imparano da chi entra in ufficio vendite, non da chi compila un modulo.'],
- ['Aria Living, Parma','Dal 18% al 52% dei contatti in visita.','In sei settimane, con campagne collegate al CRM. Caso singolo, non una garanzia.'],
+ ['Aria Living, Parma','Dal 18% al 52% dei contatti in visita.','In sei settimane, su un progetto da oltre 20 milioni di euro. Caso singolo, non una garanzia.'],
  ['Test di incrementalità','Misuriamo le visite in più, non quelle che sarebbero arrivate comunque.','Confrontiamo zone e periodi con e senza campagna per isolare l’effetto reale.'],
  ['Test A/B continui','Ogni annuncio è un’ipotesi da verificare.','Una variabile alla volta: creatività, testo, landing. Resta solo ciò che porta visite.'],
  ['Dati collegati al CRM','Ogni contatto ha una fonte. Ogni visita ha un costo.','Il report mostra quanto ti costa una visita, canale per canale.'],
