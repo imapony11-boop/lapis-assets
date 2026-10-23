@@ -39,28 +39,34 @@ var API='https://carlomarescarealestate.app.n8n.cloud/webhook/';
   var sb=n.querySelector('.ct_sub');if(!sb){sb=document.createElement('p');sb.className='ct_sub';hh.parentNode.insertBefore(sb,hh.nextSibling)}sb.textContent=sub;
   var box=n.querySelector('.ct_opts'),proto=box.querySelector('.ct_opt');box.innerHTML='';
   items.forEach(function(it){var o=proto.cloneNode(true);o.classList.remove('is-sel');var i=o.querySelector('input');i.name=name;i.value=it[0];i.checked=false;var sp=o.querySelector('span');sp.innerHTML='';sp.className='ct_oc';
-   if(it[3]){var ic=document.createElement('span');ic.className='ct_ic';if(it[3].charAt(0)==='<')ic.innerHTML=it[3];else{var im=document.createElement('img');im.src=it[3];im.alt='';ic.appendChild(im)}o.insertBefore(ic,sp)}var b=document.createElement('b');b.className='ct_ot';b.textContent=it[1];sp.appendChild(b);if(it[2]){var sm=document.createElement('small');sm.className='ct_os';sm.textContent=it[2];sp.appendChild(sm)}box.appendChild(o)});return n}
- var a=mk(fase,'Da dove partiamo?','Ci adattiamo a quello che hai già.','partenza',[
-  ['Takeover','Takeover','Hai già account, portali o sito? Completiamo solo ciò che manca.'],
+   if(it[3]){var ic=document.createElement('span');ic.className='ct_ic';if(it[4])ic.style.background=it[4];if(it[3].charAt(0)==='<')ic.innerHTML=it[3];else{var im=document.createElement('img');im.src=it[3];im.alt='';ic.appendChild(im)}o.insertBefore(ic,sp)}
+   var b=document.createElement('b');b.className='ct_ot';b.textContent=it[1];sp.appendChild(b);if(it[2]){var sm=document.createElement('small');sm.className='ct_os';sm.textContent=it[2];sp.appendChild(sm)}box.appendChild(o)});return n}
+ var a=mk(fase,'Da dove partiamo?','Aiutaci a capire a che punto sei.','partenza',[
   ['Setup completo','Setup completo da zero','Impostiamo campagne, portali, tracciamento e landing page.'],
+  ['Takeover','Takeover','Hai già account, portali o sito? Completiamo solo ciò che manca.'],
   ['Da verificare','Non lo so ancora','Lo verifichiamo insieme nell’analisi gratuita.']]);
  var CDN='https://cdn.jsdelivr.net/gh/imapony11-boop/lapis-assets@e3459ad3b0b678b6bc0e72bb64f9a6021a517b36/';
  var LP='<svg viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 8.5h18"/><circle cx="6" cy="6.3" r=".6" fill="#151515"/><circle cx="8.2" cy="6.3" r=".6" fill="#151515"/><path d="M7 12.5h10M7 15.5h6" stroke-linecap="round"/></svg>';
  var ZERO='<svg viewBox="0 0 24 24" fill="none" stroke="#B0573A" stroke-width="1.7" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
- var b=mk(can,'Cosa hai già attivo?','Seleziona tutto quello che c’è già','attivi',[
+ var b=mk(can,'Su quali canali vuoi crescere?','Seleziona tutti quelli che ti interessano','canali',[
   ['Landing page','Landing page','Sito del progetto',LP],
   ['Immobiliare.it','Immobiliare.it','Portale',CDN+'img/site-portal-immobiliare.png'],
   ['idealista','idealista','Portale',CDN+'img/site-portal-idealista.png'],
   ['Casa.it','Casa.it','Portale',CDN+'img/site-portal-casa-it.png'],
-  ['Meta Ads','Meta Ads','Facebook e Instagram',CDN+'prezzi/svg_meta.svg'],
-  ['Google Ads','Google Ads','Search e Performance Max',CDN+'img/icon-google-ads.webp'],
-  ['Tracciamento','Tracciamento','GA4, Pixel, Tag Manager',CDN+'prezzi/svg_ga4.svg'],
-  ['CRM','CRM','Gestione contatti','<svg viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="9" cy="10.5" r="2.2"/><path d="M5.8 16.2c.6-1.6 1.8-2.4 3.2-2.4s2.6.8 3.2 2.4M14.5 9.5h4M14.5 12.5h4M14.5 15.5h2.5"/></svg>'],
-  ['Niente','Niente, partiamo da zero','',ZERO]]);
- var bx=b.querySelector('.ct_opts');if(bx)bx.classList.add('ct_tiles');
+  ['Facebook','Facebook','Meta Ads',CDN+'prezzi/svg_fbc.svg'],
+  ['Instagram','Instagram','Meta Ads',CDN+'prezzi/svg_igw.svg','linear-gradient(45deg,#F9A13A 0%,#E1306C 55%,#833AB4 100%)'],
+  ['Google','Google','Search e Performance Max',CDN+'img/icon-google-ads.webp'],
+  ['ChatGPT','ChatGPT','Ricerca con l’IA',CDN+'prezzi/svg_oai_k.svg'],
+  ['Niente','Ancora nessuno','',ZERO]]);
+ var bx=b.querySelector('.ct_opts');if(bx)bx.classList.add('ct_tiles');b.setAttribute('data-ct','canali');
  fase.parentNode.insertBefore(a,fase.nextSibling);a.parentNode.insertBefore(b,a.nextSibling);
- var bw=document.querySelector('.ct_bars');if(bw){var bb=bw.querySelector('.ct_bar');for(var k=0;k<2;k++){var c=bb.cloneNode(true);c.classList.remove('is-cur');c.classList.remove('is-done');bw.appendChild(c)}bw.style.gridTemplateColumns='repeat(11,1fr)'}
+ can.parentNode.removeChild(can);
+ var bw=document.querySelector('.ct_bars');if(bw){var bb=bw.querySelector('.ct_bar');var c=bb.cloneNode(true);c.classList.remove('is-cur');c.classList.remove('is-done');bw.appendChild(c);bw.style.gridTemplateColumns='repeat(10,1fr)'}
 })();
+function ctAdapt(){var t=form.querySelector('[data-ct="canali"]');if(!t)return;var p=(form.querySelector('[name="partenza"]:checked')||{}).value||'';var setup=p==='Setup completo';
+ t.querySelector('.ct_h').textContent=setup?'Su quali canali vuoi partire?':'Quali canali usate già?';
+ t.querySelector('.ct_sub').textContent=setup?'Seleziona tutti quelli che ti interessano':'Seleziona tutti quelli attivi oggi';
+ var nz=t.querySelector('input[value="Niente"]');if(nz){var o=nz.closest('.ct_opt');o.style.display=setup?'none':'';if(setup&&nz.checked){nz.checked=false;o.classList.remove('is-sel')}}}
 var steps=[].slice.call(form.querySelectorAll('.ct_step')),N=steps.length-1,cur=1;
 steps.forEach(function(st,i){var n=st.querySelector('.ct_n');if(n&&i<N)n.textContent=(i+1)+' di '+N});
 var next=form.querySelector('[data-ct="next"]'),back=document.querySelector('[data-ct="back"]'),err=form.querySelector('[data-ct="err"]');
@@ -131,13 +137,13 @@ function finish(mode,iso){closeModal();steps.forEach(function(st){st.classList.r
  var t=document.getElementById('top');if(t&&t.scrollIntoView&&window.innerWidth<768)t.scrollIntoView({behavior:'smooth',block:'start'})}
 function send(callback){if(sending)return;var start=(callback||failed)?'':selIso;if(!start&&!callback&&!failed)return;
  sending=true;var me=modal&&modal.classList.contains('is-open')?modal.querySelector('.ctm_err'):err;me.textContent='';if(modal&&!callback)renderModal();
- var body={nome:val('nome')[0]||'',societa:val('societa')[0]||'',ruolo:val('ruolo')[0]||'',zona:val('zona')[0]||'',unita:val('unita')[0]||'',fase:val('fase')[0]||'',budget:val('budget')[0]||'',canali:val('canali'),partenza:val('partenza')[0]||'',attivi:val('attivi'),email:val('email')[0]||'',telefono:val('telefono')[0]||'',website:hp.value,start:start||null};
+ var body={nome:val('nome')[0]||'',societa:val('societa')[0]||'',ruolo:val('ruolo')[0]||'',zona:val('zona')[0]||'',unita:val('unita')[0]||'',fase:val('fase')[0]||'',budget:val('budget')[0]||'',canali:val('canali'),partenza:val('partenza')[0]||'',email:val('email')[0]||'',telefono:val('telefono')[0]||'',website:hp.value,start:start||null};
  fetch(API+'lapis-book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{s:r.status,j:j}})}).then(function(x){sending=false;
-  if(x.s===200&&x.j&&x.j.ok){(window.dataLayer=window.dataLayer||[]).push({event:'lp_contact',modalita:x.j.mode,ruolo:body.ruolo,zona:body.zona,unita:body.unita,fase:body.fase,budget:body.budget,canali:body.canali.join('|'),partenza:body.partenza,attivi:body.attivi.join('|')});finish(x.j.mode,x.j.start||start);return}
+  if(x.s===200&&x.j&&x.j.ok){(window.dataLayer=window.dataLayer||[]).push({event:'lp_contact',modalita:x.j.mode,ruolo:body.ruolo,zona:body.zona,unita:body.unita,fase:body.fase,budget:body.budget,canali:body.canali.join('|'),partenza:body.partenza});finish(x.j.mode,x.j.start||start);return}
   if(x.s===409){me.textContent='Questo orario è appena stato prenotato. Scegline un altro.';selIso='';data=null;loading=null;if(modal)renderModal();var p=load(true);if(p)p.then(function(){if(data&&!avail()[selDate])selDate='';if(modal)renderModal()});return}
   me.textContent='Invio non riuscito. Controlla i dati e riprova tra un attimo.';if(modal)renderModal()}).catch(function(){sending=false;me.textContent='Invio non riuscito. Controlla la connessione e riprova.';if(modal)renderModal()})}
 /* ---------- steps ---------- */
-function show(s){cur=s;steps.forEach(function(st,i){st.classList.toggle('is-on',i===s-1)});
+function show(s){cur=s;ctAdapt();steps.forEach(function(st,i){st.classList.toggle('is-on',i===s-1)});
  back.classList.toggle('is-hidden',s===1);next.style.display=s>N?'none':'';err.textContent='';
  bars.forEach(function(b,i){b.classList.toggle('is-done',i<s-1||s>N);b.classList.toggle('is-cur',i===s-1)});
  var k=(s-1)%qs.length;qs.forEach(function(q,i){q.classList.toggle('is-on',i===k)});if(window.__ctBg)window.__ctBg(k%9);
@@ -145,7 +151,7 @@ function show(s){cur=s;steps.forEach(function(st,i){st.classList.toggle('is-on',
  if(s>N){var nm=(val('nome')[0]||'').split(' ')[0];form.querySelector('[data-ct="nm"]').textContent=nm?', '+nm:'';
   var c=form.querySelector('[data-ct="chips"]');c.innerHTML='';[val('zona')[0],val('unita')[0],val('budget')[0]].forEach(function(t){if(!t)return;var x=document.createElement('span');x.className='ct_chip';x.textContent=t;c.appendChild(x)});if(bookTx)bookTx.textContent='Prenota la call';ensureCb();setTimeout(openModal,180)}
  var f=steps[s-1]&&steps[s-1].querySelector('.ct_in');if(f&&window.innerWidth>767)setTimeout(function(){f.focus()},60);sync()}
-form.addEventListener('change',function(e){if(e.target.name==='attivi'&&e.target.checked){[].forEach.call(form.querySelectorAll('input[name="attivi"]'),function(x){if(x!==e.target&&(e.target.value==='Niente'||x.value==='Niente')){x.checked=false;var oo=x.closest('.ct_opt');if(oo)oo.classList.remove('is-sel')}})}var o=e.target.closest('.ct_opt');if(o&&e.target.type==='radio'){[].forEach.call(o.parentNode.querySelectorAll('.ct_opt'),function(x){x.classList.remove('is-sel')})}if(o)o.classList.toggle('is-sel',e.target.checked);sync();
+form.addEventListener('change',function(e){if(e.target.name==='canali'&&e.target.checked){[].forEach.call(form.querySelectorAll('input[name="canali"]'),function(x){if(x!==e.target&&(e.target.value==='Niente'||x.value==='Niente')){x.checked=false;var oo=x.closest('.ct_opt');if(oo)oo.classList.remove('is-sel')}})}var o=e.target.closest('.ct_opt');if(o&&e.target.type==='radio'){[].forEach.call(o.parentNode.querySelectorAll('.ct_opt'),function(x){x.classList.remove('is-sel')})}if(o)o.classList.toggle('is-sel',e.target.checked);sync();
  if(e.target.type==='radio'&&ok(cur))setTimeout(function(){if(ok(cur))show(cur+1)},280)});
 form.addEventListener('input',sync);
 next.addEventListener('click',function(){if(!ok(cur)){err.textContent=cur===N?'Inserisci email, telefono e accetta l’informativa.':'Completa questo passaggio per continuare.';return}show(cur+1)});
