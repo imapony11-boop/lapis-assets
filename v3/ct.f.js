@@ -8,6 +8,24 @@ window.__lpIC={};window.__lpST=["ct_chip", "is-cur", "is-done", "is-hidden", "is
 
 (function(){
 var form=document.querySelector('[data-ct="form"]');if(!form)return;
+(function(){var box=document.querySelector('.ct_quotes'),card=document.querySelector('.ct_card');if(!box||!card||box.getAttribute('data-ct-s'))return;box.setAttribute('data-ct-s','1');
+ var IMG='https://cdn.jsdelivr.net/gh/imapony11-boop/lapis-assets@c20bdc818ccab09e6e63ac142ea8d43acb571386/v3/ct-s';
+ var Q=[].slice.call(box.querySelectorAll('.ct_q'));if(Q.length<3)return;
+ var F=[['Il nostro obiettivo','Ottimizziamo per le visite prenotate, non per i contatti.','Le campagne imparano da chi entra in ufficio vendite, non da chi compila un modulo.'],
+ ['Aria Living, Parma','Dal 18% al 52% dei contatti in visita.','In sei settimane, con campagne collegate al CRM. Caso singolo, non una garanzia.'],
+ ['Test di incrementalità','Misuriamo le visite in più, non quelle che sarebbero arrivate comunque.','Confrontiamo zone e periodi con e senza campagna per isolare l’effetto reale.'],
+ ['Test A/B continui','Ogni annuncio è un’ipotesi da verificare.','Una variabile alla volta: creatività, testo, landing. Resta solo ciò che porta visite.'],
+ ['Dati collegati al CRM','Ogni contatto ha una fonte. Ogni visita ha un costo.','Il report mostra quanto ti costa una visita, canale per canale.'],
+ ['Strategia in 14 giorni','Budget per canale e piano consigliato, in 14 giorni.','Gratis e senza contratto.']];
+ function fact(f){var n=Q[0].cloneNode(true);n.classList.remove('is-on');n.classList.add('ct_fact');var m=n.querySelector('.ct_q_mark'),t=n.querySelector('.ct_q_t'),w=n.querySelector('.ct_q_who');
+  if(m){m.textContent=f[0];m.classList.add('ct_q_lbl')}if(t)t.textContent=f[1];if(w){w.innerHTML='';var c=document.createElement('span');c.className='ct_q_cap';c.textContent=f[2];w.appendChild(c)}return n}
+ var order=[Q[0],fact(F[0]),fact(F[1]),Q[1],fact(F[2]),fact(F[3]),Q[2],fact(F[4]),fact(F[5])];
+ order.forEach(function(n){box.appendChild(n)});
+ var L=document.createElement('div');L.className='ct_bgs';L.setAttribute('aria-hidden','true');
+ for(var i=1;i<=9;i++){var d=document.createElement('div');d.className='ct_bg'+(i===1?' is-on':'');d.style.backgroundImage='linear-gradient(180deg,rgba(12,11,10,.05) 0%,rgba(12,11,10,.18) 42%,rgba(12,11,10,.76) 100%),url('+IMG+i+'.webp)';L.appendChild(d)}
+ card.insertBefore(L,card.firstChild);
+ var bgs=[].slice.call(L.children);window.__ctBg=function(k){bgs.forEach(function(b,j){b.classList.toggle('is-on',j===k)})};
+})();
 var API='https://carlomarescarealestate.app.n8n.cloud/webhook/';
 var steps=[].slice.call(form.querySelectorAll('.ct_step')),N=9,cur=1;
 var next=form.querySelector('[data-ct="next"]'),back=document.querySelector('[data-ct="back"]'),err=form.querySelector('[data-ct="err"]');
@@ -77,7 +95,7 @@ function send(callback){if(sending)return;var start=callback||failed?'':selIso;i
 function show(s){cur=s;steps.forEach(function(st,i){st.classList.toggle('is-on',i===s-1)});
  back.classList.toggle('is-hidden',s===1);next.style.display=s>N?'none':'';err.textContent='';
  bars.forEach(function(b,i){b.classList.toggle('is-done',i<s-1||s>N);b.classList.toggle('is-cur',i===s-1)});
- qs.forEach(function(q,i){q.classList.toggle('is-on',i===((s-1)%qs.length))});
+ var k=(s-1)%qs.length;qs.forEach(function(q,i){q.classList.toggle('is-on',i===k)});if(window.__ctBg)window.__ctBg(k%9);
  if(s>=8)load();
  if(s>N){var nm=(val('nome')[0]||'').split(' ')[0];form.querySelector('[data-ct="nm"]').textContent=nm?', '+nm:'';
   var c=form.querySelector('[data-ct="chips"]');c.innerHTML='';[val('zona')[0],val('unita')[0],val('budget')[0]].forEach(function(t){if(!t)return;var x=document.createElement('span');x.className='ct_chip';x.textContent=t;c.appendChild(x)});openCal()}
