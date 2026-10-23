@@ -34,7 +34,28 @@ var API='https://carlomarescarealestate.app.n8n.cloud/webhook/';
 (function(){var st=form.querySelectorAll('.ct_step')[3];if(!st)return;var opts=st.querySelector('.ct_opts'),src=form.querySelector('[name="societa"]'),lab=src&&src.closest('.ct_f');if(!opts||!lab)return;
  var n=lab.cloneNode(true),i=n.querySelector('input');i.name='zona';i.value='';i.placeholder='Es. Milano, Parma, Roma';i.setAttribute('autocomplete','address-level2');i.setAttribute('data-req','1');
  var l=n.querySelector('.ct_lbl');if(l)l.textContent='Città o zona del progetto';opts.parentNode.replaceChild(n,opts)})();
-var steps=[].slice.call(form.querySelectorAll('.ct_step')),N=9,cur=1;
+(function(){var st=[].slice.call(form.querySelectorAll('.ct_step'));var fase=st[5],can=st[7];if(!fase||!can||form.querySelector('[name="partenza"]'))return;
+ function mk(tpl,h,sub,name,items){var n=tpl.cloneNode(true);n.classList.remove('is-on');n.removeAttribute('data-step');var hh=n.querySelector('.ct_h');if(hh.tagName==='H1'){var h2=document.createElement('h2');h2.className=hh.className;hh.parentNode.replaceChild(h2,hh);hh=h2}hh.textContent=h;
+  var sb=n.querySelector('.ct_sub');if(!sb){sb=document.createElement('p');sb.className='ct_sub';hh.parentNode.insertBefore(sb,hh.nextSibling)}sb.textContent=sub;
+  var box=n.querySelector('.ct_opts'),proto=box.querySelector('.ct_opt');box.innerHTML='';
+  items.forEach(function(it){var o=proto.cloneNode(true);o.classList.remove('is-sel');var i=o.querySelector('input');i.name=name;i.value=it[0];i.checked=false;var sp=o.querySelector('span');sp.innerHTML='';sp.className='ct_oc';
+   var b=document.createElement('b');b.className='ct_ot';b.textContent=it[1];sp.appendChild(b);if(it[2]){var sm=document.createElement('small');sm.className='ct_os';sm.textContent=it[2];sp.appendChild(sm)}box.appendChild(o)});return n}
+ var a=mk(fase,'Da dove partiamo?','Ci adattiamo a quello che hai già.','partenza',[
+  ['Takeover','Takeover','Hai già account, portali o sito? Completiamo solo ciò che manca.'],
+  ['Setup completo','Setup completo da zero','Impostiamo campagne, portali, tracciamento e landing page.'],
+  ['Da verificare','Non lo so ancora','Lo verifichiamo insieme nell’analisi gratuita.']]);
+ var b=mk(can,'Cosa hai già attivo?','Seleziona tutto quello che c’è già','attivi',[
+  ['Landing page','Landing page o sito del progetto'],
+  ['Portali','Portali immobiliari','Immobiliare.it · idealista · Casa.it'],
+  ['Campagne Meta o Google','Campagne Meta o Google'],
+  ['Tracciamento','Tracciamento','Google Analytics, Pixel, Tag Manager'],
+  ['CRM','CRM'],
+  ['Niente','Niente, partiamo da zero']]);
+ fase.parentNode.insertBefore(a,fase.nextSibling);a.parentNode.insertBefore(b,a.nextSibling);
+ var bw=document.querySelector('.ct_bars');if(bw){var bb=bw.querySelector('.ct_bar');for(var k=0;k<2;k++){var c=bb.cloneNode(true);c.classList.remove('is-cur');c.classList.remove('is-done');bw.appendChild(c)}bw.style.gridTemplateColumns='repeat(11,1fr)'}
+})();
+var steps=[].slice.call(form.querySelectorAll('.ct_step')),N=steps.length-1,cur=1;
+steps.forEach(function(st,i){var n=st.querySelector('.ct_n');if(n&&i<N)n.textContent=(i+1)+' di '+N});
 var next=form.querySelector('[data-ct="next"]'),back=document.querySelector('[data-ct="back"]'),err=form.querySelector('[data-ct="err"]');
 var bars=[].slice.call(document.querySelectorAll('.ct_bar')),qs=[].slice.call(document.querySelectorAll('.ct_q'));
 var book=form.querySelector('.ct_book'),bookTx=book?book.querySelector('span'):null,done=form.querySelector('[data-ct="done"]');
@@ -42,7 +63,7 @@ var hp=document.createElement('input');hp.type='text';hp.name='website';hp.tabIn
 function val(n){var els=form.querySelectorAll('[name="'+n+'"]'),out=[];[].forEach.call(els,function(e){if((e.type==='radio'||e.type==='checkbox')){if(e.checked)out.push(e.value)}else if(e.value.trim())out.push(e.value.trim())});return out}
 function ok(s){var st=steps[s-1];if(!st||s>N)return true;var good=true;
  [].forEach.call(st.querySelectorAll('[data-req]'),function(e){var r=e.getAttribute('data-req');if(r==='check'){if(!e.checked)good=false}else if(r==='email'){if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.value.trim()))good=false}else if(!e.value.trim())good=false});
- var g=st.querySelectorAll('input[type=radio],input[type=checkbox][name="canali"]');if(g.length){var any=false;[].forEach.call(g,function(e){if(e.checked)any=true});if(!any)good=false}
+ var g=st.querySelectorAll('input[type=radio],input[type=checkbox]:not([name="privacy"])');if(g.length){var any=false;[].forEach.call(g,function(e){if(e.checked)any=true});if(!any)good=false}
  return good}
 function sync(){next.classList.toggle('is-off',!ok(cur));}
 /* ---------- Lapis calendar (modal) ---------- */
@@ -103,9 +124,9 @@ function finish(mode,iso){closeModal();steps.forEach(function(st){st.classList.r
  var t=document.getElementById('top');if(t&&t.scrollIntoView&&window.innerWidth<768)t.scrollIntoView({behavior:'smooth',block:'start'})}
 function send(callback){if(sending)return;var start=(callback||failed)?'':selIso;if(!start&&!callback&&!failed)return;
  sending=true;var me=modal&&modal.classList.contains('is-open')?modal.querySelector('.ctm_err'):err;me.textContent='';if(modal&&!callback)renderModal();
- var body={nome:val('nome')[0]||'',societa:val('societa')[0]||'',ruolo:val('ruolo')[0]||'',zona:val('zona')[0]||'',unita:val('unita')[0]||'',fase:val('fase')[0]||'',budget:val('budget')[0]||'',canali:val('canali'),email:val('email')[0]||'',telefono:val('telefono')[0]||'',website:hp.value,start:start||null};
+ var body={nome:val('nome')[0]||'',societa:val('societa')[0]||'',ruolo:val('ruolo')[0]||'',zona:val('zona')[0]||'',unita:val('unita')[0]||'',fase:val('fase')[0]||'',budget:val('budget')[0]||'',canali:val('canali'),partenza:val('partenza')[0]||'',attivi:val('attivi'),email:val('email')[0]||'',telefono:val('telefono')[0]||'',website:hp.value,start:start||null};
  fetch(API+'lapis-book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{s:r.status,j:j}})}).then(function(x){sending=false;
-  if(x.s===200&&x.j&&x.j.ok){(window.dataLayer=window.dataLayer||[]).push({event:'lp_contact',modalita:x.j.mode,ruolo:body.ruolo,zona:body.zona,unita:body.unita,fase:body.fase,budget:body.budget,canali:body.canali.join('|')});finish(x.j.mode,x.j.start||start);return}
+  if(x.s===200&&x.j&&x.j.ok){(window.dataLayer=window.dataLayer||[]).push({event:'lp_contact',modalita:x.j.mode,ruolo:body.ruolo,zona:body.zona,unita:body.unita,fase:body.fase,budget:body.budget,canali:body.canali.join('|'),partenza:body.partenza,attivi:body.attivi.join('|')});finish(x.j.mode,x.j.start||start);return}
   if(x.s===409){me.textContent='Questo orario è appena stato prenotato. Scegline un altro.';selIso='';data=null;loading=null;if(modal)renderModal();var p=load(true);if(p)p.then(function(){if(data&&!avail()[selDate])selDate='';if(modal)renderModal()});return}
   me.textContent='Invio non riuscito. Controlla i dati e riprova tra un attimo.';if(modal)renderModal()}).catch(function(){sending=false;me.textContent='Invio non riuscito. Controlla la connessione e riprova.';if(modal)renderModal()})}
 /* ---------- steps ---------- */
@@ -113,14 +134,14 @@ function show(s){cur=s;steps.forEach(function(st,i){st.classList.toggle('is-on',
  back.classList.toggle('is-hidden',s===1);next.style.display=s>N?'none':'';err.textContent='';
  bars.forEach(function(b,i){b.classList.toggle('is-done',i<s-1||s>N);b.classList.toggle('is-cur',i===s-1)});
  var k=(s-1)%qs.length;qs.forEach(function(q,i){q.classList.toggle('is-on',i===k)});if(window.__ctBg)window.__ctBg(k%9);
- if(s>=8)load();
+ if(s>=N-1)load();
  if(s>N){var nm=(val('nome')[0]||'').split(' ')[0];form.querySelector('[data-ct="nm"]').textContent=nm?', '+nm:'';
   var c=form.querySelector('[data-ct="chips"]');c.innerHTML='';[val('zona')[0],val('unita')[0],val('budget')[0]].forEach(function(t){if(!t)return;var x=document.createElement('span');x.className='ct_chip';x.textContent=t;c.appendChild(x)});if(bookTx)bookTx.textContent='Prenota la call';ensureCb();setTimeout(openModal,180)}
  var f=steps[s-1]&&steps[s-1].querySelector('.ct_in');if(f&&window.innerWidth>767)setTimeout(function(){f.focus()},60);sync()}
-form.addEventListener('change',function(e){var o=e.target.closest('.ct_opt');if(o&&e.target.type==='radio'){[].forEach.call(o.parentNode.querySelectorAll('.ct_opt'),function(x){x.classList.remove('is-sel')})}if(o)o.classList.toggle('is-sel',e.target.checked);sync();
+form.addEventListener('change',function(e){if(e.target.name==='attivi'&&e.target.checked){[].forEach.call(form.querySelectorAll('input[name="attivi"]'),function(x){if(x!==e.target&&(e.target.value==='Niente'||x.value==='Niente')){x.checked=false;var oo=x.closest('.ct_opt');if(oo)oo.classList.remove('is-sel')}})}var o=e.target.closest('.ct_opt');if(o&&e.target.type==='radio'){[].forEach.call(o.parentNode.querySelectorAll('.ct_opt'),function(x){x.classList.remove('is-sel')})}if(o)o.classList.toggle('is-sel',e.target.checked);sync();
  if(e.target.type==='radio'&&ok(cur))setTimeout(function(){if(ok(cur))show(cur+1)},280)});
 form.addEventListener('input',sync);
-next.addEventListener('click',function(){if(!ok(cur)){err.textContent=cur===9?'Inserisci email, telefono e accetta l’informativa.':'Completa questo passaggio per continuare.';return}show(cur+1)});
+next.addEventListener('click',function(){if(!ok(cur)){err.textContent=cur===N?'Inserisci email, telefono e accetta l’informativa.':'Completa questo passaggio per continuare.';return}show(cur+1)});
 back.addEventListener('click',function(){if(cur>1)show(cur-1)});
 form.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.tagName==='INPUT'&&cur<=N){e.preventDefault();next.click()}});
 form.addEventListener('submit',function(e){e.preventDefault();if(cur>N)openModal()});
