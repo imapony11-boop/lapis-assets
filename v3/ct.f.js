@@ -45,59 +45,68 @@ function ok(s){var st=steps[s-1];if(!st||s>N)return true;var good=true;
  var g=st.querySelectorAll('input[type=radio],input[type=checkbox][name="canali"]');if(g.length){var any=false;[].forEach.call(g,function(e){if(e.checked)any=true});if(!any)good=false}
  return good}
 function sync(){next.classList.toggle('is-off',!ok(cur));}
-/* ---------- Lapis calendar ---------- */
-var TZ='Europe/Rome',cal=null,data=null,loading=null,page=0,selDay=-1,selIso='',failed=false,sending=false;
+/* ---------- Lapis calendar (modal) ---------- */
+var TZ='Europe/Rome',data=null,loading=null,failed=false,sending=false,selIso='',selDate='',mon=null,modal=null,ROOT=document.querySelector('[data-lp-root="ct"]')||document.body;
 function el(t,c,tx){var e=document.createElement(t);if(c)e.className=c;if(tx!=null)e.textContent=tx;return e}
 function fmt(iso,o){o.timeZone=TZ;return new Date(iso).toLocaleString('it-IT',o)}
-function dayIso(d){return d+'T12:00:00Z'}
-function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function dIso(d){return d+'T12:00:00Z'}
+function cap(x){return x.charAt(0).toUpperCase()+x.slice(1)}
 function load(force){if(loading&&!force)return loading;failed=false;
  loading=fetch(API+'lapis-slots',{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){if(!j||!j.days)throw 0;data=j.days.filter(function(d){return d.slots&&d.slots.length});if(!data.length)throw 0;return data}).catch(function(){failed=true;data=null;loading=null});
  return loading}
-function ensureCal(){if(cal)return cal;cal=el('div','ct_cal');cal.setAttribute('data-ct','cal');
- if(book)book.parentNode.insertBefore(cal,book);
- var cb=el('button','ct_cb','Nessun orario va bene? Invia la richiesta, ti richiamiamo noi');cb.type='button';cb.setAttribute('data-ct','cb');
- var alt=form.querySelector('.ct_alt');(alt||book).parentNode.insertBefore(cb,alt?alt.nextSibling:book.nextSibling);
- cb.addEventListener('click',function(){send(true)});return cal}
-function setBook(){if(!book)return;var on=!!selIso||failed;book.classList.toggle('is-off',!on);
- if(bookTx)bookTx.textContent=failed?'Invia la richiesta':(selIso?'Prenota '+fmt(selIso,{weekday:'short',day:'numeric',month:'short'})+', '+fmt(selIso,{hour:'2-digit',minute:'2-digit'}):'Scegli un orario');
- var cb=form.querySelector('[data-ct="cb"]');if(cb)cb.style.display=failed?'none':''}
-function render(){var c=ensureCal();c.innerHTML='';
- if(failed){c.appendChild(el('p','ct_cal_msg','Il calendario non è disponibile in questo momento. Invia la richiesta: ti contatteremo entro le prossime 48 ore per fissare la call.'));setBook();return}
- if(!data){var sk=el('div','ct_cal_load');sk.appendChild(el('span','ct_cal_spin'));sk.appendChild(el('span','','Carico le disponibilità…'));c.appendChild(sk);setBook();return}
- var per=5,pages=Math.ceil(data.length/per);if(page>pages-1)page=pages-1;
- var vis=data.slice(page*per,page*per+per);
- var hd=el('div','ct_cal_hd');hd.appendChild(el('span','ct_cal_m',cap(fmt(dayIso(vis[0].date),{month:'long',year:'numeric'}))));
- var nav=el('div','ct_cal_nav');
- [['‹',-1,'Giorni precedenti'],['›',1,'Giorni successivi']].forEach(function(a){var b=el('button','ct_cal_arr',a[0]);b.type='button';b.setAttribute('aria-label',a[2]);var np=page+a[1];b.disabled=np<0||np>pages-1;b.addEventListener('click',function(){page=np;render()});nav.appendChild(b)});
- hd.appendChild(nav);c.appendChild(hd);
- var row=el('div','ct_cal_days');
- vis.forEach(function(d,i){var idx=page*per+i,b=el('button','ct_cal_d'+(idx===selDay?' is-sel':''));b.type='button';
-  b.appendChild(el('span','ct_cal_wd',fmt(dayIso(d.date),{weekday:'short'}).replace('.','')));b.appendChild(el('b','',fmt(dayIso(d.date),{day:'numeric'})));
-  b.appendChild(el('em','',fmt(dayIso(d.date),{month:'short'}).replace('.','')));
-  b.addEventListener('click',function(){selDay=idx;selIso='';render()});row.appendChild(b)});
- c.appendChild(row);
- if(selDay<0){c.appendChild(el('p','ct_cal_hint','Scegli un giorno per vedere gli orari liberi'))}
- else{var d=data[selDay],g=el('div','ct_cal_times');
-  d.slots.forEach(function(s){var b=el('button','ct_cal_t'+(s.iso===selIso?' is-sel':''),s.t);b.type='button';b.addEventListener('click',function(){selIso=s.iso;render()});g.appendChild(b)});
-  c.appendChild(g)}
- c.appendChild(el('p','ct_cal_note','Videochiamata di 30 minuti · ora italiana'));
- setBook()}
-function openCal(){render();if(!data&&!failed){var p=load();if(p)p.then(function(){if(data&&selDay<0)selDay=0;render()})}}
-function finish(mode,iso){steps.forEach(function(st){st.classList.remove('is-on')});
+var IC={clock:'<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6.2V10l2.6 1.7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+ cam:'<svg viewBox="0 0 20 20"><rect x="2.5" y="5.5" width="10.5" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M13 9l4.5-2.5v7L13 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+ globe:'<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.8 10h14.4M10 2.8c2.2 2.3 2.2 12.1 0 14.4M10 2.8c-2.2 2.3-2.2 12.1 0 14.4" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>',
+ mark:'<svg viewBox="26 26 132 110"><rect x="30" y="101.3" width="58.8" height="29.4" rx="3.2" fill="#1B1A18"/><rect x="94.7" y="101.3" width="58.8" height="29.4" rx="3.2" fill="#1B1A18"/><rect x="62.4" y="66" width="58.8" height="29.4" rx="3.2" fill="#1B1A18"/><rect x="94.7" y="30.8" width="58.8" height="29.4" rx="3.2" fill="#B0573A"/></svg>'};
+function ensureCb(){if(form.querySelector('[data-ct="cb"]'))return;var cb=el('button','ct_cb','Nessun orario va bene? Invia la richiesta, ti richiamiamo noi');cb.type='button';cb.setAttribute('data-ct','cb');
+ var alt=form.querySelector('.ct_alt');(alt||book).parentNode.insertBefore(cb,alt?alt.nextSibling:book.nextSibling);cb.addEventListener('click',function(){send(true)})}
+function closeModal(){if(!modal)return;modal.classList.remove('is-open');document.documentElement.style.overflow='';setTimeout(function(){if(modal&&!modal.classList.contains('is-open'))modal.style.display='none'},260)}
+function buildModal(){modal=el('div','ctm');modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-label','Prenota la call');
+ modal.innerHTML='<div class="ctm_bg" data-x></div><div class="ctm_p"><button type="button" class="ctm_x" aria-label="Chiudi" data-x>&times;</button><aside class="ctm_info"><div class="ctm_brand">'+IC.mark+'<span>Lapis Performance</span></div><h3 class="ctm_t">Analisi del tuo progetto</h3><ul class="ctm_meta"><li>'+IC.clock+'<span>30 minuti</span></li><li>'+IC.cam+'<span>Videochiamata Google Meet</span></li><li>'+IC.globe+'<span>Ora italiana</span></li></ul><p class="ctm_d">Analizziamo progetto, budget e canali e ti mostriamo come portare più visite in ufficio vendite.</p><div class="ctm_chips"></div></aside><section class="ctm_cal"><h4 class="ctm_h">Scegli giorno e ora</h4><div class="ctm_body"></div></section><section class="ctm_times"></section><p class="ctm_err" role="alert"></p></div>';
+ ROOT.appendChild(modal);
+ modal.addEventListener('click',function(e){if(e.target.closest('[data-x]'))closeModal()});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('is-open'))closeModal()})}
+function chipsInto(c){c.innerHTML='';[val('zona')[0],val('unita')[0],val('budget')[0]].forEach(function(t){if(t)c.appendChild(el('span','ctm_chip',t))})}
+function avail(){var m={};(data||[]).forEach(function(d){m[d.date]=d});return m}
+function renderModal(){var body=modal.querySelector('.ctm_body'),tm=modal.querySelector('.ctm_times');body.innerHTML='';tm.innerHTML='';
+ if(failed){modal.classList.add('is-fail');body.appendChild(el('p','ctm_msg','Il calendario non è disponibile in questo momento. Invia la richiesta: ti contatteremo entro le prossime 48 ore per fissare la call.'));var b=el('button','ctm_go','Invia la richiesta');b.type='button';b.addEventListener('click',function(){send(true)});body.appendChild(b);return}
+ modal.classList.remove('is-fail');
+ if(!data){var sk=el('div','ctm_load');sk.appendChild(el('span','ct_cal_spin'));sk.appendChild(el('span','','Carico le disponibilità…'));body.appendChild(sk);return}
+ var A=avail(),first=data[0].date,last=data[data.length-1].date;if(!mon)mon=first.slice(0,7);if(!selDate)selDate=first;
+ var y=+mon.slice(0,4),m=+mon.slice(5,7);
+ var hd=el('div','ctm_mh');hd.appendChild(el('span','ctm_m',cap(fmt(dIso(mon+'-15'),{month:'long',year:'numeric'}))));var nav=el('div','ctm_nav');
+ [['‹',-1,'Mese precedente'],['›',1,'Mese successivo']].forEach(function(q){var bt=el('button','ctm_arr',q[0]);bt.type='button';bt.setAttribute('aria-label',q[2]);var nm=new Date(Date.UTC(y,m-1+q[1],1)).toISOString().slice(0,7);bt.disabled=nm<first.slice(0,7)||nm>last.slice(0,7);bt.addEventListener('click',function(){mon=nm;renderModal()});nav.appendChild(bt)});
+ hd.appendChild(nav);body.appendChild(hd);
+ var g=el('div','ctm_grid');['lun','mar','mer','gio','ven','sab','dom'].forEach(function(w){g.appendChild(el('span','ctm_wd',w))});
+ var start=(new Date(Date.UTC(y,m-1,1)).getUTCDay()+6)%7,days=new Date(Date.UTC(y,m,0)).getUTCDate();
+ for(var i=0;i<start;i++)g.appendChild(el('span','ctm_e'));
+ for(var d=1;d<=days;d++){(function(d){var ds=mon+'-'+(d<10?'0':'')+d,ok=!!A[ds],bt=el('button','ctm_day'+(ok?' is-av':'')+(ds===selDate?' is-sel':''),String(d));bt.type='button';bt.disabled=!ok;
+  if(ok){bt.setAttribute('aria-label',cap(fmt(dIso(ds),{weekday:'long',day:'numeric',month:'long'})));bt.addEventListener('click',function(){selDate=ds;selIso='';renderModal()})}g.appendChild(bt)})(d)}
+ body.appendChild(g);
+ var day=A[selDate];tm.appendChild(el('h4','ctm_th',day?cap(fmt(dIso(selDate),{weekday:'long',day:'numeric',month:'long'})):'Scegli un giorno'));
+ var list=el('div','ctm_list');
+ if(day)day.slots.forEach(function(sl){var row=el('div','ctm_row'+(sl.iso===selIso?' is-sel':''));var t=el('button','ctm_slot',sl.t);t.type='button';t.addEventListener('click',function(){selIso=sl.iso;renderModal()});row.appendChild(t);
+  if(sl.iso===selIso){var c=el('button','ctm_ok',sending?'Invio…':'Conferma');c.type='button';c.disabled=sending;c.addEventListener('click',function(){send(false)});row.appendChild(c)}list.appendChild(row)});
+ tm.appendChild(list)}
+function openModal(){if(!modal)buildModal();chipsInto(modal.querySelector('.ctm_chips'));modal.querySelector('.ctm_err').textContent='';modal.style.display='flex';document.documentElement.style.overflow='hidden';
+ requestAnimationFrame(function(){modal.classList.add('is-open')});renderModal();
+ if(!data&&!failed){var p=load();if(p)p.then(function(){renderModal()})}
+ setTimeout(function(){var x=modal.querySelector('.ctm_x');if(x)x.focus()},60)}
+function finish(mode,iso){closeModal();steps.forEach(function(st){st.classList.remove('is-on')});
  var h=done.querySelector('.ct_h'),p=done.querySelector('.ct_sub');
  if(mode==='call'){if(h)h.textContent='Call prenotata';if(p)p.textContent=cap(fmt(iso,{weekday:'long',day:'numeric',month:'long'}))+' alle '+fmt(iso,{hour:'2-digit',minute:'2-digit'})+'. Ti abbiamo inviato l’invito via email con il link alla videochiamata.'}
  else{if(h)h.textContent='Richiesta inviata';if(p)p.textContent='Grazie! Abbiamo ricevuto il tuo progetto.'}
  var x=done.querySelector('.ct_done_48');if(!x){x=el('p','ct_done_48');done.appendChild(x)}x.textContent='Ti contatteremo entro le prossime 48 ore.';
- done.classList.add('is-on');back.classList.add('is-hidden');err.textContent='';bars.forEach(function(b){b.classList.add('is-done');b.classList.remove('is-cur')});
+ done.classList.add('is-on');back.classList.add('is-hidden');err.textContent='';next.style.display='none';if(book)book.style.display='none';
+ bars.forEach(function(b){b.classList.add('is-done');b.classList.remove('is-cur')});
  var t=document.getElementById('top');if(t&&t.scrollIntoView&&window.innerWidth<768)t.scrollIntoView({behavior:'smooth',block:'start'})}
-function send(callback){if(sending)return;var start=callback||failed?'':selIso;if(!start&&!callback&&!failed){err.textContent='Scegli un giorno e un orario, oppure chiedi di essere richiamato.';return}
- sending=true;err.textContent='';var lbl=bookTx?bookTx.textContent:'';if(bookTx&&!callback)bookTx.textContent='Invio in corso…';book.classList.add('is-off');
+function send(callback){if(sending)return;var start=(callback||failed)?'':selIso;if(!start&&!callback&&!failed)return;
+ sending=true;var me=modal&&modal.classList.contains('is-open')?modal.querySelector('.ctm_err'):err;me.textContent='';if(modal&&!callback)renderModal();
  var body={nome:val('nome')[0]||'',societa:val('societa')[0]||'',ruolo:val('ruolo')[0]||'',zona:val('zona')[0]||'',unita:val('unita')[0]||'',fase:val('fase')[0]||'',budget:val('budget')[0]||'',canali:val('canali'),email:val('email')[0]||'',telefono:val('telefono')[0]||'',website:hp.value,start:start||null};
  fetch(API+'lapis-book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{s:r.status,j:j}})}).then(function(x){sending=false;
   if(x.s===200&&x.j&&x.j.ok){(window.dataLayer=window.dataLayer||[]).push({event:'lp_contact',modalita:x.j.mode,ruolo:body.ruolo,zona:body.zona,unita:body.unita,fase:body.fase,budget:body.budget,canali:body.canali.join('|')});finish(x.j.mode,x.j.start||start);return}
-  if(x.s===409){err.textContent='Questo orario è appena stato prenotato. Scegline un altro.';selIso='';data=null;loading=null;render();var p=load(true);if(p)p.then(function(){if(data){if(selDay>data.length-1)selDay=0;}render()});return}
-  err.textContent='Invio non riuscito. Controlla i dati e riprova tra un attimo.';if(bookTx)bookTx.textContent=lbl;setBook()}).catch(function(){sending=false;err.textContent='Invio non riuscito. Controlla la connessione e riprova.';if(bookTx)bookTx.textContent=lbl;setBook()})}
+  if(x.s===409){me.textContent='Questo orario è appena stato prenotato. Scegline un altro.';selIso='';data=null;loading=null;if(modal)renderModal();var p=load(true);if(p)p.then(function(){if(data&&!avail()[selDate])selDate='';if(modal)renderModal()});return}
+  me.textContent='Invio non riuscito. Controlla i dati e riprova tra un attimo.';if(modal)renderModal()}).catch(function(){sending=false;me.textContent='Invio non riuscito. Controlla la connessione e riprova.';if(modal)renderModal()})}
 /* ---------- steps ---------- */
 function show(s){cur=s;steps.forEach(function(st,i){st.classList.toggle('is-on',i===s-1)});
  back.classList.toggle('is-hidden',s===1);next.style.display=s>N?'none':'';err.textContent='';
@@ -105,7 +114,7 @@ function show(s){cur=s;steps.forEach(function(st,i){st.classList.toggle('is-on',
  var k=(s-1)%qs.length;qs.forEach(function(q,i){q.classList.toggle('is-on',i===k)});if(window.__ctBg)window.__ctBg(k%9);
  if(s>=8)load();
  if(s>N){var nm=(val('nome')[0]||'').split(' ')[0];form.querySelector('[data-ct="nm"]').textContent=nm?', '+nm:'';
-  var c=form.querySelector('[data-ct="chips"]');c.innerHTML='';[val('zona')[0],val('unita')[0],val('budget')[0]].forEach(function(t){if(!t)return;var x=document.createElement('span');x.className='ct_chip';x.textContent=t;c.appendChild(x)});openCal()}
+  var c=form.querySelector('[data-ct="chips"]');c.innerHTML='';[val('zona')[0],val('unita')[0],val('budget')[0]].forEach(function(t){if(!t)return;var x=document.createElement('span');x.className='ct_chip';x.textContent=t;c.appendChild(x)});if(bookTx)bookTx.textContent='Prenota la call';ensureCb()}
  var f=steps[s-1]&&steps[s-1].querySelector('.ct_in');if(f&&window.innerWidth>767)setTimeout(function(){f.focus()},60);sync()}
 form.addEventListener('change',function(e){var o=e.target.closest('.ct_opt');if(o&&e.target.type==='radio'){[].forEach.call(o.parentNode.querySelectorAll('.ct_opt'),function(x){x.classList.remove('is-sel')})}if(o)o.classList.toggle('is-sel',e.target.checked);sync();
  if(e.target.type==='radio'&&ok(cur))setTimeout(function(){if(ok(cur))show(cur+1)},280)});
@@ -113,7 +122,7 @@ form.addEventListener('input',sync);
 next.addEventListener('click',function(){if(!ok(cur)){err.textContent=cur===9?'Inserisci email, telefono e accetta l’informativa.':'Completa questo passaggio per continuare.';return}show(cur+1)});
 back.addEventListener('click',function(){if(cur>1)show(cur-1)});
 form.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.tagName==='INPUT'&&cur<=N){e.preventDefault();next.click()}});
-form.addEventListener('submit',function(e){e.preventDefault();if(cur>N)send(false)});
+form.addEventListener('submit',function(e){e.preventDefault();if(cur>N)openModal()});
 show(1);
 })();
 
