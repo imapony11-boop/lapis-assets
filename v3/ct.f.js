@@ -91,7 +91,7 @@ function renderModal(){var body=modal.querySelector('.ctm_body'),tm=modal.queryS
 function openModal(){if(!modal)buildModal();chipsInto(modal.querySelector('.ctm_chips'));modal.querySelector('.ctm_err').textContent='';modal.style.display='flex';document.documentElement.style.overflow='hidden';
  requestAnimationFrame(function(){modal.classList.add('is-open')});renderModal();
  if(!data&&!failed){var p=load();if(p)p.then(function(){renderModal()})}
- setTimeout(function(){var x=modal.querySelector('.ctm_x');if(x)x.focus()},60)}
+ setTimeout(function(){var x=modal.querySelector('.ctm_x');if(x)x.focus({preventScroll:true})},60)}
 function finish(mode,iso){closeModal();steps.forEach(function(st){st.classList.remove('is-on')});
  var h=done.querySelector('.ct_h'),p=done.querySelector('.ct_sub');
  if(mode==='call'){if(h)h.textContent='Call prenotata';if(p)p.textContent=cap(fmt(iso,{weekday:'long',day:'numeric',month:'long'}))+' alle '+fmt(iso,{hour:'2-digit',minute:'2-digit'})+'. Ti abbiamo inviato l’invito via email con il link alla videochiamata.'}
