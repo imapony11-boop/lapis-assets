@@ -39,18 +39,25 @@ var API='https://carlomarescarealestate.app.n8n.cloud/webhook/';
   var sb=n.querySelector('.ct_sub');if(!sb){sb=document.createElement('p');sb.className='ct_sub';hh.parentNode.insertBefore(sb,hh.nextSibling)}sb.textContent=sub;
   var box=n.querySelector('.ct_opts'),proto=box.querySelector('.ct_opt');box.innerHTML='';
   items.forEach(function(it){var o=proto.cloneNode(true);o.classList.remove('is-sel');var i=o.querySelector('input');i.name=name;i.value=it[0];i.checked=false;var sp=o.querySelector('span');sp.innerHTML='';sp.className='ct_oc';
-   var b=document.createElement('b');b.className='ct_ot';b.textContent=it[1];sp.appendChild(b);if(it[2]){var sm=document.createElement('small');sm.className='ct_os';sm.textContent=it[2];sp.appendChild(sm)}box.appendChild(o)});return n}
+   if(it[3]){var ic=document.createElement('span');ic.className='ct_ic';if(it[3].charAt(0)==='<')ic.innerHTML=it[3];else{var im=document.createElement('img');im.src=it[3];im.alt='';im.loading='lazy';ic.appendChild(im)}o.insertBefore(ic,sp)}var b=document.createElement('b');b.className='ct_ot';b.textContent=it[1];sp.appendChild(b);if(it[2]){var sm=document.createElement('small');sm.className='ct_os';sm.textContent=it[2];sp.appendChild(sm)}box.appendChild(o)});return n}
  var a=mk(fase,'Da dove partiamo?','Ci adattiamo a quello che hai già.','partenza',[
   ['Takeover','Takeover','Hai già account, portali o sito? Completiamo solo ciò che manca.'],
   ['Setup completo','Setup completo da zero','Impostiamo campagne, portali, tracciamento e landing page.'],
   ['Da verificare','Non lo so ancora','Lo verifichiamo insieme nell’analisi gratuita.']]);
+ var CDN='https://cdn.jsdelivr.net/gh/imapony11-boop/lapis-assets@e3459ad3b0b678b6bc0e72bb64f9a6021a517b36/';
+ var LP='<svg viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 8.5h18"/><circle cx="6" cy="6.3" r=".6" fill="#151515"/><circle cx="8.2" cy="6.3" r=".6" fill="#151515"/><path d="M7 12.5h10M7 15.5h6" stroke-linecap="round"/></svg>';
+ var ZERO='<svg viewBox="0 0 24 24" fill="none" stroke="#B0573A" stroke-width="1.7" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
  var b=mk(can,'Cosa hai già attivo?','Seleziona tutto quello che c’è già','attivi',[
-  ['Landing page','Landing page o sito del progetto'],
-  ['Portali','Portali immobiliari','Immobiliare.it · idealista · Casa.it'],
-  ['Campagne Meta o Google','Campagne Meta o Google'],
-  ['Tracciamento','Tracciamento','Google Analytics, Pixel, Tag Manager'],
-  ['CRM','CRM'],
-  ['Niente','Niente, partiamo da zero']]);
+  ['Landing page','Landing page','Sito del progetto',LP],
+  ['Immobiliare.it','Immobiliare.it','Portale',CDN+'img/site-portal-immobiliare.png'],
+  ['idealista','idealista','Portale',CDN+'img/site-portal-idealista.png'],
+  ['Casa.it','Casa.it','Portale',CDN+'img/site-portal-casa-it.png'],
+  ['Meta Ads','Meta Ads','Facebook e Instagram',CDN+'prezzi/svg_meta.svg'],
+  ['Google Ads','Google Ads','Search e Performance Max',CDN+'img/icon-google-ads.webp'],
+  ['Tracciamento','Tracciamento','GA4, Pixel, Tag Manager',CDN+'prezzi/svg_ga4.svg'],
+  ['CRM','CRM','Gestione contatti',CDN+'prezzi/svg_crm.svg'],
+  ['Niente','Niente, partiamo da zero','',ZERO]]);
+ var bx=b.querySelector('.ct_opts');if(bx)bx.classList.add('ct_tiles');
  fase.parentNode.insertBefore(a,fase.nextSibling);a.parentNode.insertBefore(b,a.nextSibling);
  var bw=document.querySelector('.ct_bars');if(bw){var bb=bw.querySelector('.ct_bar');for(var k=0;k<2;k++){var c=bb.cloneNode(true);c.classList.remove('is-cur');c.classList.remove('is-done');bw.appendChild(c)}bw.style.gridTemplateColumns='repeat(11,1fr)'}
 })();
