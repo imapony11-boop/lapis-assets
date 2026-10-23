@@ -49,16 +49,16 @@ var API='https://carlomarescarealestate.app.n8n.cloud/webhook/';
  var LP='<svg viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 8.5h18"/><circle cx="6" cy="6.3" r=".6" fill="#151515"/><circle cx="8.2" cy="6.3" r=".6" fill="#151515"/><path d="M7 12.5h10M7 15.5h6" stroke-linecap="round"/></svg>';
  var ZERO='<svg viewBox="0 0 24 24" fill="none" stroke="#B0573A" stroke-width="1.7" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
  var b=mk(can,'Su quali canali vuoi crescere?','Seleziona tutti quelli che ti interessano','canali',[
-  ['Landing page','Landing page','Sito del progetto',LP],
+  ['Facebook','Facebook','Meta Ads',CDN+'prezzi/svg_fbc.svg'],
+  ['Google','Google','Search e Performance Max',CDN+'img/icon-google-ads.webp'],
   ['Immobiliare.it','Immobiliare.it','Portale',CDN+'img/site-portal-immobiliare.png'],
   ['idealista','idealista','Portale',CDN+'img/site-portal-idealista.png'],
   ['Casa.it','Casa.it','Portale',CDN+'img/site-portal-casa-it.png'],
-  ['Facebook','Facebook','Meta Ads',CDN+'prezzi/svg_fbc.svg'],
   ['Instagram','Instagram','Meta Ads',CDN+'prezzi/svg_igw.svg','linear-gradient(45deg,#F9A13A 0%,#E1306C 55%,#833AB4 100%)'],
-  ['Google','Google','Search e Performance Max',CDN+'img/icon-google-ads.webp'],
   ['ChatGPT','ChatGPT','Ricerca con l’IA',CDN+'prezzi/svg_oai_k.svg'],
+  ['Landing page','Landing page','Sito del progetto',LP],
   ['Niente','Ancora nessuno','',ZERO]]);
- var bx=b.querySelector('.ct_opts');if(bx)bx.classList.add('ct_tiles');b.setAttribute('data-ct','canali');
+ var bx=b.querySelector('.ct_opts');if(bx)bx.classList.add('ct_tiles');var nz=b.querySelector('input[value="Niente"]');if(nz)nz.closest('.ct_opt').classList.add('ct_none');b.setAttribute('data-ct','canali');
  fase.parentNode.insertBefore(a,fase.nextSibling);a.parentNode.insertBefore(b,a.nextSibling);
  can.parentNode.removeChild(can);
  var bw=document.querySelector('.ct_bars');if(bw){var bb=bw.querySelector('.ct_bar');var c=bb.cloneNode(true);c.classList.remove('is-cur');c.classList.remove('is-done');bw.appendChild(c);bw.style.gridTemplateColumns='repeat(10,1fr)'}
