@@ -1293,7 +1293,7 @@ if(app){(function(){
  /* chart card */
  var cc=app.querySelector('.v2_row .v2_cc'),tb=app.querySelector('.v2_row .v2_tbl');
  if(!cc||!tb)return;
- cc.classList.add('d3');tb.classList.add('d3');
+ cc.classList.add('d3');tb.classList.add('d3');cc.parentNode.classList.add('d3_row1');
  cc.innerHTML='<div class="d3_seg" role="tablist"><button type="button" class="is-on" data-m="v"><i class="d3_si">◉</i>Visite</button><button type="button" data-m="c"><i class="d3_si">€</i>Costo per canale</button><button type="button" data-m="b"><i class="d3_si">↻</i>Budget</button></div>'+
   '<div class="d3_plot"><svg class="d3_svg" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true"><g class="d3_grid"><line x1="0" x2="600" y1="1" y2="1"/><line x1="0" x2="600" y1="67" y2="67"/><line x1="0" x2="600" y1="133" y2="133"/><line x1="0" x2="600" y1="199" y2="199"/></g><line class="d3_cur" x1="0" x2="0" y1="0" y2="200"/>'+CH.map(function(c,k){return '<path class="d3_ln" data-ch="'+k+'" stroke="'+c.c+'"/>'}).join('')+'</svg>'+
   '<div class="d3_pts">'+CH.map(function(c){return '<i style="border-color:'+c.c+'"></i>'}).join('')+'</div>'+
@@ -1326,7 +1326,7 @@ if(app){(function(){
   tt.innerHTML=MF[i]+' 2026<small>'+m.u+'</small>';
   if(!tr.__r){tr.innerHTML=CH.map(function(c){return '<span><i class="d3_sq" style="background:'+c.c+'"></i><i class="d3_ic">'+c.ic+'</i><em>'+c.n+'</em><b><u></u><s></s></b></span>'}).join('');tr.__r=[].slice.call(tr.children);tr.classList.add('d3_rk')}
   ord.forEach(function(o,r){var k=CH.indexOf(o.c),el=tr.__r[k],v=el.querySelector('s'),t=String(m.f(o.v));el.style.transform='translateY('+(r*24)+'px)';el.style.zIndex=4-r;if(v.textContent!==t){if(v.textContent){el.classList.remove('d3_bump');void el.offsetWidth;el.classList.add('d3_bump')}v.textContent=t}});
-  var tw=tip.offsetWidth||200,px=x/600*w,l=px+16;if(l+tw>w-2)l=px-16-tw;if(l<2)l=2;tip.style.left=l+'px';}
+  var px=x/600*w;tip.style.left=(px+16)+'px';}
  function idx(e){var r=hit.getBoundingClientRect(),cx=(e.touches?e.touches[0].clientX:e.clientX)-r.left,f=cx/r.width;var i=Math.round((f-PAD)/((1-2*PAD)/5));return Math.max(0,Math.min(5,i))}
  hit.addEventListener('pointermove',function(e){var i=idx(e);if(i!==wk)setWk(i);plot.classList.add('is-hov')});
  hit.addEventListener('pointerleave',function(){plot.classList.remove('is-hov');setWk(5)});
