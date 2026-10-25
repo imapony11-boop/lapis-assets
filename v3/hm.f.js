@@ -1273,7 +1273,7 @@ var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 var app=document.querySelector('.v2_dashsec .v2_app');
 if(app){(function(){
  var M=['Gen','Feb','Mar','Apr','Mag','Giu'],MF=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno'];
- var CH=[{n:'Meta',c:'#E0623A',k:'Meta'},{n:'Google',c:'#3B82F6',k:'Google'},{n:'Portali',c:'#22A06B',k:'Portali'},{n:'ChatGPT',c:'#E2B93B',k:'ChatGPT'}];
+ var CH=[{n:'Meta',c:'#E0623A',k:'Meta'},{n:'Google',c:'#3B82F6',k:'Google'},{n:'Immobiliare',c:'#22A06B',k:'Portali'},{n:'ChatGPT',c:'#E2B93B',k:'ChatGPT'}];
  var MET={
   v:{d:[[6,9,13,12,16,21],[9,11,13,11,12,12],[8,9,8,6,7,6],[1,2,2,2,3,3]],f:function(x){return x},asc:false,u:'Visite'},
   c:{d:[[118,104,88,76,68,62],[84,82,80,78,76,74],[70,72,76,79,82,84],[66,62,58,55,52,50]],f:function(x){return x+' €'},asc:true,u:'€ per visita · più basso è meglio'},
@@ -1324,7 +1324,8 @@ if(app){(function(){
   pts.forEach(function(p,k){p.style.left=(x/600*100)+'%';p.style.top=(Y(MET[met].d[k][i])/200*h)+'px'});
   var m=MET[met],ord=CH.map(function(c,k){return {c:c,v:m.d[k][i]}}).sort(function(a,b){return m.asc?a.v-b.v:b.v-a.v});
   tt.innerHTML=MF[i]+' 2026<small>'+m.u+'</small>';
-  tr.innerHTML=ord.map(function(o){return '<span><i class="d3_sq" style="background:'+o.c.c+'"></i><i class="d3_ic">'+o.c.ic+'</i><em>'+o.c.n+'</em><b><u></u>'+m.f(o.v)+'</b></span>'}).join('');
+  if(!tr.__r){tr.innerHTML=CH.map(function(c){return '<span><i class="d3_sq" style="background:'+c.c+'"></i><i class="d3_ic">'+c.ic+'</i><em>'+c.n+'</em><b><u></u><s></s></b></span>'}).join('');tr.__r=[].slice.call(tr.children);tr.classList.add('d3_rk')}
+  ord.forEach(function(o,r){var k=CH.indexOf(o.c),el=tr.__r[k],v=el.querySelector('s'),t=String(m.f(o.v));el.style.transform='translateY('+(r*24)+'px)';el.style.zIndex=4-r;if(v.textContent!==t){if(v.textContent){el.classList.remove('d3_bump');void el.offsetWidth;el.classList.add('d3_bump')}v.textContent=t}});
   var tw=tip.offsetWidth||200,px=x/600*w,l=px+16;if(l+tw>w-2)l=px-16-tw;if(l<2)l=2;tip.style.left=l+'px';}
  function idx(e){var r=hit.getBoundingClientRect(),cx=(e.touches?e.touches[0].clientX:e.clientX)-r.left,f=cx/r.width;var i=Math.round((f-PAD)/((1-2*PAD)/5));return Math.max(0,Math.min(5,i))}
  hit.addEventListener('pointermove',function(e){var i=idx(e);if(i!==wk)setWk(i);plot.classList.add('is-hov')});
