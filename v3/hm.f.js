@@ -1275,7 +1275,7 @@ if(app){(function(){
  var M=['Gen','Feb','Mar','Apr','Mag','Giu'],MF=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno'];
  var CH=[{n:'Meta',c:'#E0623A',k:'Meta'},{n:'Google',c:'#3B82F6',k:'Google'},{n:'Portali',c:'#22A06B',k:'Portali'},{n:'ChatGPT',c:'#E2B93B',k:'ChatGPT'}];
  var MET={
-  v:{d:[[6,8,11,14,17,21],[9,10,11,12,12,12],[8,9,8,7,6,6],[1,1,2,2,3,3]],f:function(x){return x},asc:false,u:'Visite'},
+  v:{d:[[6,9,13,12,16,21],[9,11,13,11,12,12],[8,9,8,6,7,6],[1,2,2,2,3,3]],f:function(x){return x},asc:false,u:'Visite'},
   c:{d:[[118,104,88,76,68,62],[84,82,80,78,76,74],[70,72,76,79,82,84],[66,62,58,55,52,50]],f:function(x){return x+' €'},asc:true,u:'€ per visita · più basso è meglio'},
   b:{d:[[30,34,40,46,51,55],[40,38,35,32,30,28],[25,23,20,17,14,12],[5,5,5,5,5,5]],f:function(x){return x+'%'},asc:false,u:'Quota budget'}
  };
@@ -1300,7 +1300,7 @@ if(app){(function(){
   '<div class="d3_tip"><b class="d3_tt"></b><div class="d3_tr"></div></div><div class="d3_hit"></div></div>'+
   '<div class="d3_xl">'+M.map(function(m,i){return '<span style="left:'+((0.045+i*0.91/5)*100).toFixed(2)+'%">'+m+'</span>'}).join('')+'</div>';
  /* comparison table (static) */
- var T=[[21,'+4',62,'-6',55,'+4'],[12,'0',74,'-2',28,'-2'],[6,'0',84,'+2',12,'-2'],[3,'+1',50,'-2',5,'0']];
+ var T=[[21,'+5',62,'-6',55,'+4'],[12,'0',74,'-2',28,'-2'],[6,'-1',84,'+2',12,'-2'],[3,'0',50,'-2',5,'0']];
  function dl(s,lowGood){var n=parseFloat(s);if(!n)return '<em class="d3_d n">–</em>';var good=lowGood?n<0:n>0;return '<em class="d3_d '+(good?'g':'r')+'">'+(n>0?'↗ ':'↘ ')+Math.abs(n)+'</em>'}
  tb.innerHTML='<div class="d3_th"><b>Canali a confronto</b><small>Ultimo mese · variazione su maggio</small></div><div class="d3_tbl"><div class="d3_r d3_h"><span>#</span><span>Canale</span><span>Visite</span><span>€/visita</span><span>Budget</span></div>'+
   CH.map(function(c,k){var t=T[k];return '<div class="d3_r"><span class="d3_n">'+(k+1)+'</span><span class="d3_c"><i class="d3_ic">'+c.ic+'</i>'+c.n+'</span><span><b class="d3_v"><i style="background:'+c.c+'"></i>'+t[0]+'</b>'+dl(t[1])+'</span><span><b class="d3_box">'+t[2]+' €</b>'+dl(t[3],1)+'</span><span><b class="d3_box">'+t[4]+'%</b>'+dl(t[5])+'</span></div>'}).join('')+
@@ -1310,11 +1310,15 @@ if(app){(function(){
      tip=cc.querySelector('.d3_tip'),tt=tip.querySelector('.d3_tt'),tr=tip.querySelector('.d3_tr'),hit=cc.querySelector('.d3_hit'),btns=[].slice.call(cc.querySelectorAll('.d3_seg button'));
  var met='v',wk=5,PAD=0.045;
  function X(i){return (PAD+i*(1-2*PAD)/5)*600}
- function rng(){var a=1e9,b=-1e9;MET[met].d.forEach(function(s){s.forEach(function(v){a=Math.min(a,v);b=Math.max(b,v)})});var p=(b-a)*.14||1;return [a-p,b+p]}
+ function rng(){var a=1e9,b=-1e9;MET[met].d.forEach(function(s){s.forEach(function(v){a=Math.min(a,v);b=Math.max(b,v)})});var p=(b-a)*.22||1;return [a-p,b+p]}
  function Y(v){var r=rng();return 200-(v-r[0])/(r[1]-r[0])*200}
- function curve(P){var n=P.length,d=[],m=[],i;for(i=0;i<n-1;i++)d.push((P[i+1][1]-P[i][1])/(P[i+1][0]-P[i][0]));m[0]=d[0];m[n-1]=d[n-2];for(i=1;i<n-1;i++)m[i]=d[i-1]*d[i]<=0?0:(d[i-1]+d[i])/2;
-  for(i=0;i<n-1;i++){if(d[i]===0){m[i]=0;m[i+1]=0;continue}var a=m[i]/d[i],b=m[i+1]/d[i],s=a*a+b*b;if(s>9){var t=3/Math.sqrt(s);m[i]=t*a*d[i];m[i+1]=t*b*d[i]}}
-  var o='M'+P[0][0].toFixed(1)+','+P[0][1].toFixed(1);for(i=0;i<n-1;i++){var h=(P[i+1][0]-P[i][0])/3;o+=' C'+(P[i][0]+h).toFixed(1)+','+(P[i][1]+m[i]*h).toFixed(1)+' '+(P[i+1][0]-h).toFixed(1)+','+(P[i+1][1]-m[i+1]*h).toFixed(1)+' '+P[i+1][0].toFixed(1)+','+P[i+1][1].toFixed(1)}return o}
+ function curve(P){var n=P.length,Q=P.slice(),L=P[0],R=P[n-1];
+  var sl=(P[1][1]-P[0][1])*.35,sr=(P[n-1][1]-P[n-2][1])*.35;
+  Q.unshift([0,L[1]-sl]);Q.push([600,R[1]+sr]);
+  var o='M'+Q[0][0].toFixed(1)+','+Q[0][1].toFixed(1),i,m=Q.length;
+  for(i=0;i<m-1;i++){var p0=Q[Math.max(0,i-1)],p1=Q[i],p2=Q[i+1],p3=Q[Math.min(m-1,i+2)],t=6;
+   o+=' C'+(p1[0]+(p2[0]-p0[0])/t).toFixed(1)+','+(p1[1]+(p2[1]-p0[1])/t).toFixed(1)+' '+(p2[0]-(p3[0]-p1[0])/t).toFixed(1)+','+(p2[1]-(p3[1]-p1[1])/t).toFixed(1)+' '+p2[0].toFixed(1)+','+p2[1].toFixed(1)}
+  return o}
  function draw(){MET[met].d.forEach(function(s,k){paths[k].setAttribute('d',curve(s.map(function(v,i){return [X(i),Y(v)]})))});setWk(wk)}
  function setWk(i){wk=i;var x=X(i);cur.setAttribute('x1',x);cur.setAttribute('x2',x);var h=plot.clientHeight,w=plot.clientWidth;
   pts.forEach(function(p,k){p.style.left=(x/600*100)+'%';p.style.top=(Y(MET[met].d[k][i])/200*h)+'px'});
