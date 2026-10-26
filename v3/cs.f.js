@@ -1078,18 +1078,18 @@ new IntersectionObserver(function(e,o){e.forEach(function(x){if(x.isIntersecting
 var dots=[].slice.call(d.children);g.addEventListener('scroll',function(){var x=g.scrollLeft,w=cards[0]?cards[0].getBoundingClientRect().width+12:1,i=Math.round(x/w);dots.forEach(function(b,j){b.classList.toggle('is-on',j===i)})},{passive:true});})();
 ;
 (function(){var h=document.querySelector('header.lpn');if(!h)return;function f(){h.classList.toggle('lp-nav-on',(window.scrollY||document.documentElement.scrollTop)>4)}f();addEventListener('scroll',f,{passive:true})})();
-;(function(){function csRes(){var hero=document.querySelector('.a_ab_hero');if(!hero||document.querySelector('.cs_res'))return;
-var band=hero.nextElementSibling;if(!band||!/sp_band/.test(band.className))band=hero;
-var S=[[5,'+','','Anni di performance marketing'],[5,' M€+','','Budget pubblicitario gestito'],[20,' M€+','','Progetto residenziale in vendita']];
+;(function(){function csRes(){var about=document.querySelector('.c3_about');if(!about||document.querySelector('.cs_res'))return;
+var band=about.previousElementSibling;if(!band||!/sp_band/.test(band.className))return;
+var S=[[20,' M€','+','Progetto residenziale in vendita','Aria Living, Parma'],[5,'','+','Anni di performance marketing','idealo · Just Eat · adidas'],[5,' M€','+','Budget pubblicitario gestito','Meta, Google e portali']];
 var sec=document.createElement('section');sec.className='cs_res';sec.setAttribute('aria-label','Risultati');
-sec.innerHTML='<div class="cs_res_in"><span class="cs_res_k"><i></i>Chi c\u2019\u00e8 dietro Lapis</span><h2 class="cs_res_h">I numeri parlano<br><span>da soli.</span></h2><p class="cs_res_p">Jass Di Domenico ha lavorato nel performance marketing per idealo, Just Eat Takeaway e adidas. Oggi porta lo stesso metodo ai nuovi progetti residenziali.</p>'+
-'<div class="cs_res_g">'+S.map(function(s){return '<div class="cs_res_c"><b data-to="'+s[0]+'" data-suf="'+s[1]+'">0'+s[1]+'</b><small>'+s[3]+'</small></div>'}).join('')+'</div>'+
+sec.innerHTML='<div class="cs_res_in"><div class="cs_res_hd"><span class="cs_res_k"><i></i>Chi c’è dietro Lapis</span><h2 class="cs_res_h">I risultati parlano<br><span>più forte.</span></h2></div>'+
+'<div class="cs_res_g">'+S.map(function(x,i){return '<div class="cs_res_c" style="--d:'+(i*120)+'ms"><span class="cs_res_t"><i></i>'+x[4]+'</span><b><em data-to="'+x[0]+'">0</em><s>'+x[1]+'<u>'+x[2]+'</u></s></b><small>'+x[3]+'</small><span class="cs_res_bar"><i></i></span></div>'}).join('')+'</div>'+
 '<p class="cs_res_n">Campagne in Europa, Nord e Sud America e Giappone.</p></div>';
-var nb=band.cloneNode(true);band.parentNode.insertBefore(sec,band.nextSibling);sec.parentNode.insertBefore(nb,sec.nextSibling);
-var nums=[].slice.call(sec.querySelectorAll('b[data-to]')),done=false,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function run(){if(done)return;done=true;nums.forEach(function(b){var to=+b.dataset.to,suf=b.dataset.suf,t0=performance.now();if(reduce){b.textContent=to+suf;return}
-(function f(t){var p=Math.min(1,(t-t0)/1300),e=1-Math.pow(1-p,3);b.textContent=Math.round(to*e)+suf;if(p<1)requestAnimationFrame(f)})(t0)})}
-if('IntersectionObserver' in window){new IntersectionObserver(function(es,o){if(es[0].isIntersecting){run();o.disconnect()}},{threshold:.3}).observe(sec)}else run();}
+band.parentNode.insertBefore(sec,band.nextSibling);var nb=band.cloneNode(true);sec.parentNode.insertBefore(nb,sec.nextSibling);
+var nums=[].slice.call(sec.querySelectorAll('em[data-to]')),done=false,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function run(){if(done)return;done=true;sec.classList.add('is-in');nums.forEach(function(b,i){var to=+b.dataset.to;if(reduce){b.textContent=to;return}var t0=performance.now()+i*120;
+(function f(t){var p=Math.max(0,Math.min(1,(t-t0)/1400)),e=1-Math.pow(1-p,3);b.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f)})(performance.now())})}
+if('IntersectionObserver' in window){new IntersectionObserver(function(es,o){if(es[0].isIntersecting){run();o.disconnect()}},{threshold:.35}).observe(sec)}else run();}
 csRes();if(document.readyState!=='complete')addEventListener('load',csRes);setTimeout(csRes,800);})();
 
 ;
