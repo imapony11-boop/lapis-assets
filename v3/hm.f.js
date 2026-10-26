@@ -1326,7 +1326,7 @@ if(app){(function(){
  /* chart logic */
  var plot=cc.querySelector('.d3_plot'),paths=[].slice.call(cc.querySelectorAll('.d3_ln')),cur=cc.querySelector('.d3_cur'),pts=[].slice.call(cc.querySelectorAll('.d3_pts i')),
      tip=cc.querySelector('.d3_tip'),tt=tip.querySelector('.d3_tt'),tr=tip.querySelector('.d3_tr'),hit=cc.querySelector('.d3_hit'),btns=[].slice.call(cc.querySelectorAll('.d3_seg button'));
- var met='v',wk=5,PAD=0.045;
+ var met='v',wk=3,PAD=0.045;
  function X(i){return (PAD+i*(1-2*PAD)/5)*600}
  function rng(){var a=1e9,b=-1e9;MET[met].d.forEach(function(s){s.forEach(function(v){a=Math.min(a,v);b=Math.max(b,v)})});var p=(b-a)*.22||1;return [a-p,b+p]}
  function Y(v){var r=rng();return 200-(v-r[0])/(r[1]-r[0])*200}
@@ -1347,7 +1347,7 @@ if(app){(function(){
   var px=x/600*w;tip.style.left=(px+16)+'px';}
  function idx(e){var r=hit.getBoundingClientRect(),cx=(e.touches?e.touches[0].clientX:e.clientX)-r.left,f=cx/r.width;var i=Math.round((f-PAD)/((1-2*PAD)/5));return Math.max(0,Math.min(5,i))}
  hit.addEventListener('pointermove',function(e){var i=idx(e);if(i!==wk)setWk(i);plot.classList.add('is-hov')});
- hit.addEventListener('pointerleave',function(){plot.classList.remove('is-hov');setWk(5)});
+ hit.addEventListener('pointerleave',function(){plot.classList.remove('is-hov');setWk(3)});
  hit.addEventListener('touchstart',function(e){setWk(idx(e))},{passive:true});
  btns.forEach(function(b){b.addEventListener('click',function(){met=b.getAttribute('data-m');btns.forEach(function(x){x.classList.toggle('is-on',x===b)});draw()})});
  addEventListener('resize',function(){setWk(wk)});
