@@ -1080,16 +1080,15 @@ var dots=[].slice.call(d.children);g.addEventListener('scroll',function(){var x=
 (function(){var h=document.querySelector('header.lpn');if(!h)return;function f(){h.classList.toggle('lp-nav-on',(window.scrollY||document.documentElement.scrollTop)>4)}f();addEventListener('scroll',f,{passive:true})})();
 ;(function(){function csRes(){var about=document.querySelector('.c3_about');if(!about||document.querySelector('.cs_res'))return;
 var band=about.previousElementSibling;if(!band||!/sp_band/.test(band.className))return;
-var S=[[20,' M€','+','Progetto residenziale in vendita','Aria Living, Parma'],[5,'','+','Anni di performance marketing','idealo · Just Eat · adidas'],[5,' M€','+','Budget pubblicitario gestito','Meta, Google e portali']];
+var S=[[20,'M€+','Progetto residenziale'],[5,'+','Anni di esperienza'],[5,'M€+','Budget pubblicitario gestito']];
 var sec=document.createElement('section');sec.className='cs_res';sec.setAttribute('aria-label','Risultati');
-sec.innerHTML='<div class="cs_res_in"><div class="cs_res_hd"><span class="cs_res_k"><i></i>Chi c’è dietro Lapis</span><h2 class="cs_res_h">I risultati parlano<br><span>più forte.</span></h2></div>'+
-'<div class="cs_res_g">'+S.map(function(x,i){return '<div class="cs_res_c" style="--d:'+(i*120)+'ms"><span class="cs_res_t"><i></i>'+x[4]+'</span><b><em data-to="'+x[0]+'">0</em><s>'+x[1]+'<u>'+x[2]+'</u></s></b><small>'+x[3]+'</small><span class="cs_res_bar"><i></i></span></div>'}).join('')+'</div>'+
-'<p class="cs_res_n">Campagne in Europa, Nord e Sud America e Giappone.</p></div>';
+sec.innerHTML='<div class="cs_res_in"><h2 class="cs_res_h">I risultati parlano più forte.</h2><div class="cs_res_g">'+
+S.map(function(x){return '<div class="cs_res_c"><b><em data-to="'+x[0]+'">0</em><u>'+x[1]+'</u></b><small>'+x[2]+'</small></div>'}).join('')+'</div></div>';
 band.parentNode.insertBefore(sec,band.nextSibling);var nb=band.cloneNode(true);sec.parentNode.insertBefore(nb,sec.nextSibling);
 var nums=[].slice.call(sec.querySelectorAll('em[data-to]')),done=false,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function run(){if(done)return;done=true;sec.classList.add('is-in');nums.forEach(function(b,i){var to=+b.dataset.to;if(reduce){b.textContent=to;return}var t0=performance.now()+i*120;
-(function f(t){var p=Math.max(0,Math.min(1,(t-t0)/1400)),e=1-Math.pow(1-p,3);b.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f)})(performance.now())})}
-if('IntersectionObserver' in window){new IntersectionObserver(function(es,o){if(es[0].isIntersecting){run();o.disconnect()}},{threshold:.35}).observe(sec)}else run();}
+function run(){if(done)return;done=true;nums.forEach(function(b){var to=+b.dataset.to;if(reduce){b.textContent=to;return}var t0=performance.now();
+(function f(t){var p=Math.min(1,(t-t0)/1400),e=1-Math.pow(1-p,3);b.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f)})(t0)})}
+if('IntersectionObserver' in window){new IntersectionObserver(function(es,o){if(es[0].isIntersecting){run();o.disconnect()}},{threshold:.4}).observe(sec)}else run();}
 csRes();if(document.readyState!=='complete')addEventListener('load',csRes);setTimeout(csRes,800);})();
 
 ;
