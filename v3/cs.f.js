@@ -1082,7 +1082,7 @@ var dots=[].slice.call(d.children);g.addEventListener('scroll',function(){var x=
 var band=about.previousElementSibling;if(!band||!/sp_band/.test(band.className))return;
 var S=[[20,'M€+','Progetto residenziale'],[5,'+','Anni di esperienza'],[5,'M€+','Budget pubblicitario gestito']];
 var sec=document.createElement('section');sec.className='cs_res';sec.setAttribute('aria-label','Risultati');
-sec.innerHTML='<div class="cs_res_in"><h2 class="cs_res_h">La nostra esperienza, in numeri.</h2><div class="cs_res_g">'+
+sec.innerHTML='<div class="cs_res_in"><h2 class="cs_res_h">La nostra esperienza, <span>in numeri.</span></h2><div class="cs_res_g">'+
 S.map(function(x){return '<div class="cs_res_c"><b><em data-to="'+x[0]+'">0</em><u>'+x[1]+'</u></b><small>'+x[2]+'</small></div>'}).join('')+'</div></div>';
 band.parentNode.insertBefore(sec,band.nextSibling);var nb=band.cloneNode(true);sec.parentNode.insertBefore(nb,sec.nextSibling);
 var nums=[].slice.call(sec.querySelectorAll('em[data-to]')),done=false,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1090,6 +1090,8 @@ function run(){if(done)return;done=true;nums.forEach(function(b){var to=+b.datas
 (function f(t){var p=Math.min(1,(t-t0)/1400),e=1-Math.pow(1-p,3);b.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f)})(t0)})}
 if('IntersectionObserver' in window){new IntersectionObserver(function(es,o){if(es[0].isIntersecting){run();o.disconnect()}},{threshold:.4}).observe(sec)}else run();}
 csRes();if(document.readyState!=='complete')addEventListener('load',csRes);setTimeout(csRes,800);})();
+
+;(function(){function og(){[].forEach.call(document.querySelectorAll('h1,h2,h3'),function(h){if(h.__og)return;var t=h.textContent.trim();if(t==='Andiamo dove le persone cercano.'){h.__og=1;h.innerHTML='Andiamo dove le <span class="cs_og">persone cercano.</span>'}})}og();if(document.readyState!=='complete')addEventListener('load',og);})();
 
 ;
 
