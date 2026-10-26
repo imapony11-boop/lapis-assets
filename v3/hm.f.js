@@ -1284,12 +1284,30 @@ if(app){(function(){
  var lg=app.querySelector('.v2_side .v2_lpm');lg=lg?lg.outerHTML:'';
  /* sidebar: brand label only */
  var sn=app.querySelector('.v2_side .v2_sn');if(sn)sn.innerHTML='Lapis Dashboard';
+ var IC={
+  home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
+  mega:'<path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/>',
+  bld:'<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1"/>',
+  lay:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/>',
+  eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  usr:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20c-.5-2.6-2-4.3-4-5"/>',
+  cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  wal:'<path d="M3 7a2 2 0 0 1 2-2h13v4"/><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="16.5" cy="13.5" r="1.2"/>',
+  zap:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  srch:'<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/>',
+  lyr:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+  dl:'<path d="M12 4v11M7 10l5 5 5-5M4 20h16"/>'
+ };
+ function svg(k){return '<svg class="d3_svgi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[k]+'</svg>'}
+ var SM={'Panoramica':'home','Campagne':'mega','Portali':'bld','Landing':'lay','Visite':'eye','Lead':'usr','Calendario':'cal','Budget':'wal','Azioni':'zap'};
+ [].forEach.call(app.querySelectorAll('.v2_side span'),function(sp){var t=(sp.textContent||'').replace(/^[^A-Za-zÀ-ú]+/,'').trim(),k=SM[t];var i=sp.querySelector('i');if(k&&i){i.innerHTML=svg(k);i.classList.add('d3_sideic')}});
+ var se=app.querySelector('.v2_side .v2_search');if(se)se.innerHTML=svg('srch')+'<span>Azioni rapide</span>';
  /* top bar */
  var bar=app.querySelector('.v2_bar');
- if(bar)bar.innerHTML='<span class="d3_chip d3_proj">'+lg+'Cantiere 12</span><span class="d3_chip"><i class="d3_ci">▦</i>Ultimi 6 mesi</span><span class="d3_chip"><i class="d3_ci">◇</i>Tutti i canali</span><span class="d3_chip d3_exp"><i class="d3_ci">⤓</i>Export</span>';
+ if(bar)bar.innerHTML='<span class="d3_chip d3_proj">'+lg+'Cantiere 12</span><span class="d3_chip">'+svg('cal')+'Ultimi 6 mesi</span><span class="d3_chip">'+svg('lyr')+'Tutti i canali</span><span class="d3_chip d3_exp">'+svg('dl')+'Export</span>';
  /* overview strip */
  var ov=app.querySelector('.v2_ov');
- if(ov)ov.innerHTML='<span class="d3_ovl"><i class="d3_ci">⌂</i>Panoramica<em>·</em><b>Le visite crescono del 75% da gennaio</b></span><span class="d3_kpis"><span>Visite: <b>42</b><u class="g">⇈</u></span><span>Costo per visita: <b>68 €</b><u class="g">⇊</u></span><span>Budget su Meta: <b>55%</b><u class="g">⇈</u></span></span>';
+ if(ov)ov.innerHTML='<span class="d3_ovl">'+svg('home')+'Panoramica<em>·</em><b>Le visite crescono del 75% da gennaio</b></span><span class="d3_kpis"><span>Visite: <b>42</b><u class="g">⇈</u></span><span>Costo per visita: <b>68 €</b><u class="g">⇊</u></span><span>Budget su Meta: <b>55%</b><u class="g">⇈</u></span></span>';
  /* chart card */
  var cc=app.querySelector('.v2_row .v2_cc'),tb=app.querySelector('.v2_row .v2_tbl');
  if(!cc||!tb)return;
