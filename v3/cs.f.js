@@ -1080,9 +1080,9 @@ var dots=[].slice.call(d.children);g.addEventListener('scroll',function(){var x=
 (function(){var h=document.querySelector('header.lpn');if(!h)return;function f(){h.classList.toggle('lp-nav-on',(window.scrollY||document.documentElement.scrollTop)>4)}f();addEventListener('scroll',f,{passive:true})})();
 ;(function(){function csRes(){var hero=document.querySelector('.a_ab_hero');if(!hero||document.querySelector('.cs_res'))return;
 var band=hero.nextElementSibling;if(!band||!/sp_band/.test(band.className))band=hero;
-var S=[[5,'+','','Anni di performance marketing'],[5,' M€+','','Budget media gestito'],[3,'','','Brand internazionali'],[4,'','','Continenti di campagne']];
+var S=[[5,'+','','Anni di performance marketing'],[5,' M€+','','Budget pubblicitario gestito'],[20,' M€+','','Progetto residenziale in vendita']];
 var sec=document.createElement('section');sec.className='cs_res';sec.setAttribute('aria-label','Risultati');
-sec.innerHTML='<div class="cs_res_in"><span class="cs_res_k"><i></i>Chi c\u2019\u00e8 dietro Lapis</span><h2 class="cs_res_h">Esperienza da brand globali.<br><span>Oggi per il residenziale.</span></h2><p class="cs_res_p">Jass Di Domenico ha lavorato nel performance marketing per idealo, Just Eat Takeaway e adidas. Oggi porta lo stesso metodo ai nuovi progetti residenziali.</p>'+
+sec.innerHTML='<div class="cs_res_in"><span class="cs_res_k"><i></i>Chi c\u2019\u00e8 dietro Lapis</span><h2 class="cs_res_h">I numeri parlano<br><span>da soli.</span></h2><p class="cs_res_p">Jass Di Domenico ha lavorato nel performance marketing per idealo, Just Eat Takeaway e adidas. Oggi porta lo stesso metodo ai nuovi progetti residenziali.</p>'+
 '<div class="cs_res_g">'+S.map(function(s){return '<div class="cs_res_c"><b data-to="'+s[0]+'" data-suf="'+s[1]+'">0'+s[1]+'</b><small>'+s[3]+'</small></div>'}).join('')+'</div>'+
 '<p class="cs_res_n">Campagne in Europa, Nord e Sud America e Giappone.</p></div>';
 var nb=band.cloneNode(true);band.parentNode.insertBefore(sec,band.nextSibling);sec.parentNode.insertBefore(nb,sec.nextSibling);
