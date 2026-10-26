@@ -1347,7 +1347,7 @@ if(app){(function(){
   var px=x/600*w;tip.style.left=(px+16)+'px';}
  function idx(e){var r=hit.getBoundingClientRect(),cx=(e.touches?e.touches[0].clientX:e.clientX)-r.left,f=cx/r.width;var i=Math.round((f-PAD)/((1-2*PAD)/5));return Math.max(0,Math.min(5,i))}
  hit.addEventListener('pointermove',function(e){var i=idx(e);if(i!==wk)setWk(i);plot.classList.add('is-hov')});
- hit.addEventListener('pointerleave',function(){plot.classList.remove('is-hov');setWk(3)});
+ hit.addEventListener('pointerleave',function(){plot.classList.remove('is-hov')});
  hit.addEventListener('touchstart',function(e){setWk(idx(e))},{passive:true});
  btns.forEach(function(b){b.addEventListener('click',function(){met=b.getAttribute('data-m');btns.forEach(function(x){x.classList.toggle('is-on',x===b)});draw()})});
  addEventListener('resize',function(){setWk(wk)});
