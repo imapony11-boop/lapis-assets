@@ -1080,7 +1080,7 @@ var dots=[].slice.call(d.children);g.addEventListener('scroll',function(){var x=
 (function(){var h=document.querySelector('header.lpn');if(!h)return;function f(){h.classList.toggle('lp-nav-on',(window.scrollY||document.documentElement.scrollTop)>4)}f();addEventListener('scroll',f,{passive:true})})();
 ;(function(){function csRes(){var about=document.querySelector('.c3_about');if(!about||document.querySelector('.cs_res'))return;
 var band=about.previousElementSibling;if(!band||!/sp_band/.test(band.className))return;
-var S=[[20,'M€+','Progetto residenziale'],[5,'+','Anni di esperienza'],[5,'M€+','Budget pubblicitario gestito']];
+var S=[[350,'M+','Persone raggiunte'],[5,'+','Anni di esperienza'],[5,'M€+','Budget pubblicitario gestito']];
 var sec=document.createElement('section');sec.className='cs_res';sec.setAttribute('aria-label','Risultati');
 sec.innerHTML='<div class="cs_res_in"><h2 class="cs_res_h">La nostra esperienza, <span>in numeri.</span></h2><div class="cs_res_g">'+
 S.map(function(x){return '<div class="cs_res_c"><b><em data-to="'+x[0]+'">0</em><u>'+x[1]+'</u></b><small>'+x[2]+'</small></div>'}).join('')+'</div></div>';
