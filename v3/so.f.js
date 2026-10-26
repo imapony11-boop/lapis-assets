@@ -1166,5 +1166,13 @@ for(var i=0;i<c.length;i++){var r=c[i].getBoundingClientRect(),dd=Math.abs(r.lef
 if(document.readyState!='loading')build();else document.addEventListener('DOMContentLoaded',build)})();
 ;
 (function(){var h=document.querySelector('header.lpn');if(!h)return;function f(){h.classList.toggle('lp-nav-on',(window.scrollY||document.documentElement.scrollTop)>4)}f();addEventListener('scroll',f,{passive:true})})();
+;(function(){var d=document.querySelector('.lp-lpfaq_in_div');if(!d||d.querySelector('.sfq_card'))return;
+var c=document.createElement('div');c.className='sfq_card';
+c.innerHTML='<p class="sfq_p">Non trovi la risposta? Raccontaci il progetto: ti rispondiamo entro 48 ore.</p>'+
+'<div class="sfq_box"><div class="sfq_row"><span class="sfq_av"><i></i></span><div><b>Parla con il team Lapis</b><small>Call di 20 minuti, senza impegno</small></div></div>'+
+'<ul class="sfq_list"><li>Analisi dei canali attuali</li><li>Costo per visita stimato</li><li>Piano in 14 giorni</li></ul>'+
+'<a class="sfq_btn" href="/contatto">Prenota una call <span aria-hidden="true">→</span></a></div>';
+d.appendChild(c);})();
+
 ;
 
