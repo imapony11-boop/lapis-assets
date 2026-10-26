@@ -1078,7 +1078,7 @@ new IntersectionObserver(function(e,o){e.forEach(function(x){if(x.isIntersecting
 var dots=[].slice.call(d.children);g.addEventListener('scroll',function(){var x=g.scrollLeft,w=cards[0]?cards[0].getBoundingClientRect().width+12:1,i=Math.round(x/w);dots.forEach(function(b,j){b.classList.toggle('is-on',j===i)})},{passive:true});})();
 ;
 (function(){var h=document.querySelector('header.lpn');if(!h)return;function f(){h.classList.toggle('lp-nav-on',(window.scrollY||document.documentElement.scrollTop)>4)}f();addEventListener('scroll',f,{passive:true})})();
-;(function(){var hero=document.querySelector('.a_ab_hero');if(!hero||document.querySelector('.cs_res'))return;
+;(function(){function csRes(){var hero=document.querySelector('.a_ab_hero');if(!hero||document.querySelector('.cs_res'))return;
 var band=hero.nextElementSibling;if(!band||!/sp_band/.test(band.className))band=hero;
 var S=[[5,'+','','Anni di performance marketing'],[20,' M€+','','Di progetto residenziale gestito'],[52,'%','','Dei contatti arrivati in visita'],[2,'×','','Contatti in sei settimane']];
 var sec=document.createElement('section');sec.className='cs_res';sec.setAttribute('aria-label','Risultati');
@@ -1089,7 +1089,8 @@ var nb=band.cloneNode(true);band.parentNode.insertBefore(sec,band.nextSibling);s
 var nums=[].slice.call(sec.querySelectorAll('b[data-to]')),done=false,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function run(){if(done)return;done=true;nums.forEach(function(b){var to=+b.dataset.to,suf=b.dataset.suf,t0=performance.now();if(reduce){b.textContent=to+suf;return}
 (function f(t){var p=Math.min(1,(t-t0)/1300),e=1-Math.pow(1-p,3);b.textContent=Math.round(to*e)+suf;if(p<1)requestAnimationFrame(f)})(t0)})}
-if('IntersectionObserver' in window){new IntersectionObserver(function(es,o){if(es[0].isIntersecting){run();o.disconnect()}},{threshold:.3}).observe(sec)}else run();})();
+if('IntersectionObserver' in window){new IntersectionObserver(function(es,o){if(es[0].isIntersecting){run();o.disconnect()}},{threshold:.3}).observe(sec)}else run();}
+csRes();if(document.readyState!=='complete')addEventListener('load',csRes);setTimeout(csRes,800);})();
 
 ;
 
